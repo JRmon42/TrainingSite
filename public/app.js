@@ -60,6 +60,7 @@ $$(".navlink").forEach(b => b.onclick = () => go(b.dataset.page));
 
 /* ===================== Practice page ===================== */
 async function renderPractice() {
+  stopQuizTimer();
   view().innerHTML = "";
   view().appendChild(tpl("tpl-practice"));
 
@@ -141,9 +142,11 @@ function renderRecentSessions() {
     const pct = Math.round(s.percentage);
     const color = pct >= 80 ? "#3fb950" : pct >= 60 ? "#d29922" : "#f85149";
     const d = new Date(s.finishedAt);
+    const dur = (s.finishedAt && s.startedAt && s.finishedAt > s.startedAt)
+      ? `⏱ ${formatDuration(s.finishedAt - s.startedAt)}` : "";
     return `<div class="recent-item">
       <span class="pct" style="color:${color}">${pct}%</span>
-      <span>${s.earned}/${s.possible} pts · ${s.total} questions</span>
+      <span>${s.earned}/${s.possible} pts · ${s.total} questions${dur ? ` · ${dur}` : ""}</span>
       <span class="spacer" style="flex:1"></span>
       <span class="muted">${d.toLocaleString()}</span>
     </div>`;
@@ -279,6 +282,7 @@ function startPractice() {
     state.session.gradeSource[i] = (m.review && m.review.verdict === "disagree") ? "reviewer" : "community";
   });
   renderQuiz();
+  startQuizTimer();
 }
 
 /* ===================== Effective-correct helpers ===================== */
@@ -532,6 +536,36 @@ function selfMarkBlock(idx, onMark) {
 }
 
 /* ===================== Quiz rendering ===================== */
+/* ===================== Practice-test timer ===================== */
+function formatDuration(ms) {
+  if (!ms || ms < 0) ms = 0;
+  const totalSec = Math.floor(ms / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const sec = totalSec % 60;
+  const pad = n => String(n).padStart(2, "0");
+  return h > 0 ? `${h}:${pad(m)}:${pad(sec)}` : `${m}:${pad(sec)}`;
+}
+
+function updateQuizTimer() {
+  const s = state.session;
+  if (!s) return;
+  const el = document.getElementById("quizTimer");
+  if (!el) return;
+  const end = s.finishedAt || Date.now();
+  el.textContent = `⏱ ${formatDuration(end - s.startedAt)}`;
+}
+
+function startQuizTimer() {
+  stopQuizTimer();
+  updateQuizTimer();
+  state.timerInterval = setInterval(updateQuizTimer, 1000);
+}
+
+function stopQuizTimer() {
+  if (state.timerInterval) { clearInterval(state.timerInterval); state.timerInterval = null; }
+}
+
 function renderQuiz() {
   view().innerHTML = "";
   view().appendChild(tpl("tpl-quiz"));
@@ -540,6 +574,7 @@ function renderQuiz() {
 
   $("#progressBar").style.width = `${s.idx / totalUnits * 100}%`;
   $("#qCounter").textContent = `Question ${s.idx + 1} of ${totalUnits}`;
+  updateQuizTimer();
   const badge = $("#modeBadge");
   if (s.mode === "exam") badge.textContent = "Exam mode";
   else badge.classList.add("hidden");
@@ -677,6 +712,8 @@ function goNext() {
 /* ===================== Finish / results ===================== */
 async function finishSession() {
   const s = state.session;
+  stopQuizTimer();
+  s.finishedAt = Date.now();
   // ensure every member has a score (unanswered → capture now)
   for (let i = 0; i < s.members.length; i++) {
     if (!s.answers[i]) {
@@ -698,6 +735,8 @@ async function saveSessionOnce(payload) {
 
 function renderResults() {
   const s = state.session;
+  stopQuizTimer();
+  s.finishedAt = s.finishedAt || Date.now();
   view().innerHTML = "";
   view().appendChild(tpl("tpl-results"));
 
@@ -710,9 +749,10 @@ function renderResults() {
   });
   const pct = possible ? Math.round(earned / possible * 100) : 0;
   const unitCount = s.units.length;
+  const elapsedMs = s.finishedAt - s.startedAt;
 
   saveSessionOnce({
-    startedAt: s.startedAt, finishedAt: Date.now(),
+    startedAt: s.startedAt, finishedAt: s.finishedAt,
     earned, possible, percentage: pct, unitCount, questions: qRecords,
   });
 
@@ -722,6 +762,7 @@ function renderResults() {
      <div class="detail">
        <div><b>${earned} / ${possible}</b> points</div>
        <div>across ${unitCount} question${unitCount > 1 ? "s" : ""}</div>
+       <div class="time-spent">⏱ Time spent: <b>${formatDuration(elapsedMs)}</b></div>
        <div>${pct >= 80 ? "🎯 Strong pass range." : pct >= 60 ? "👍 Getting there." : "📚 Needs more review."}</div>
      </div>`;
 

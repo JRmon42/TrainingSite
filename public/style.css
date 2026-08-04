@@ -92,6 +92,7 @@ button.danger:hover { border-color: var(--red); }
 .quiz-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: .85rem; color: var(--muted); }
 .mode-badge { font-size: .72rem; padding: 3px 9px; border-radius: 999px; background: #3a2d10; border: 1px solid var(--yellow); color: #f2cc60; }
 .mode-badge.hidden { display: none; }
+.quiz-timer { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text, #e6edf3); background: #14304a; border: 1px solid #1f6feb; padding: 3px 10px; border-radius: 999px; }
 
 .type-badge { display: inline-block; font-size: .72rem; padding: 3px 10px; border-radius: 999px; background: var(--panel2); border: 1px solid var(--border); color: var(--muted); margin-bottom: 12px; }
 .stem { font-size: 1.08rem; line-height: 1.55; margin-bottom: 8px; white-space: pre-wrap; }
@@ -162,6 +163,7 @@ details.collapsible summary { cursor: pointer; color: var(--accent); padding: 8p
 .big-score.ok { color: #3fb950; }
 .big-score.no { color: #f85149; }
 .result-summary .detail { color: var(--muted); }
+.result-summary .time-spent { margin-top: 4px; color: var(--text, #e6edf3); }
 .breakdown { display: flex; flex-direction: column; gap: 8px; }
 .bd-item { padding: 10px 12px; background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; }
 .bd-head { display: flex; align-items: center; gap: 10px; }
