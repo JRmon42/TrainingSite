@@ -1,0 +1,8 @@
+node_modules/
+data/uploads/
+data/exams_backups/
+server.pid
+server.log
+nohup.out
+__pycache__/
+*.pyc

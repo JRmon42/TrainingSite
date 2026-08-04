@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+server.log
+server.pid
+nohup.out
+**/__pycache__
+**/*.pyc
+data/uploads
+data/exams_backups
+.azure
+*.md

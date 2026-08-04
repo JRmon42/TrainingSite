@@ -1,0 +1,170 @@
+{
+  "id": "sc-900-sample",
+  "name": "SC-900 (sample)",
+  "source": "Sample pack (hand-authored)",
+  "totalQuestions": 10,
+  "questions": [
+    {
+      "id": 1,
+      "type": "single",
+      "stem": "Which principle of the Zero Trust model assumes that a breach may already have occurred and therefore limits the blast radius of any single compromised component?",
+      "choices": [
+        { "key": "A", "text": "Verify explicitly", "correct": false },
+        { "key": "B", "text": "Use least privilege access", "correct": false },
+        { "key": "C", "text": "Assume breach", "correct": true },
+        { "key": "D", "text": "Trust the internal network", "correct": false }
+      ],
+      "explanation": "The correct answer is C. \"Assume breach\" tells you to design as if an attacker is already inside: segment networks, encrypt end to end, and minimize the blast radius. \"Verify explicitly\" and \"Use least privilege\" are the other two Zero Trust principles, and \"Trust the internal network\" is the legacy perimeter model Zero Trust explicitly rejects.",
+      "reference": "https://learn.microsoft.com/security/zero-trust/zero-trust-overview",
+      "deepDive": "Zero Trust rests on three ideas. Verify explicitly means every request is authenticated and authorized using all available signals (identity, device, location). Least privilege means you only ever get just enough access for just long enough. Assume breach is the mindset that you have already been compromised somewhere, so you contain damage in advance — micro-segmentation, encryption, and continuous monitoring. The question asks specifically about limiting blast radius after a compromise, which is the containment idea, so \"Assume breach\" is the fit. \"Trust the internal network\" is a trap because it is the exact opposite of Zero Trust."
+    },
+    {
+      "id": 2,
+      "type": "multi",
+      "stem": "Which of the following are examples of the 'something you have' authentication factor? Each correct answer presents a complete solution. (Choose two.)",
+      "choices": [
+        { "key": "A", "text": "A hardware FIDO2 security key", "correct": true },
+        { "key": "B", "text": "A fingerprint scan", "correct": false },
+        { "key": "C", "text": "A one-time code from an authenticator app on your phone", "correct": true },
+        { "key": "D", "text": "A memorized password", "correct": false }
+      ],
+      "explanation": "Correct answers: A and C. Authentication factors fall into three buckets: something you know (password, PIN), something you have (a phone, a hardware token/security key), and something you are (biometrics). A hardware security key and an authenticator-app code are both physical possessions, so they are 'something you have'. A fingerprint is 'something you are', and a password is 'something you know'.",
+      "deepDive": "Multi-factor authentication is strong because it combines factors of different kinds, so stealing one is not enough. 'Something you have' means physical possession — your phone running an authenticator, a smart card, or a FIDO2 key. The tempting wrong picks: a fingerprint feels like a 'device' thing but it is biometric ('something you are'); a password is knowledge ('something you know'). Picking either of those means you mixed up the categories."
+    },
+    {
+      "id": 3,
+      "type": "dropdown",
+      "stem": "Match each Microsoft Entra ID capability to the description that best fits it. The table below summarizes the descriptions.",
+      "table": {
+        "caption": "Descriptions",
+        "headers": ["#", "Description"],
+        "rows": [
+          ["1", "Grants time-bound, approval-based elevation to privileged roles"],
+          ["2", "Applies access decisions based on signals such as user, device, and risk"],
+          ["3", "Lets external partners sign in with their own credentials"]
+        ]
+      },
+      "blanks": [
+        {
+          "statement": "Privileged Identity Management (PIM) →",
+          "options": ["Description 1", "Description 2", "Description 3"],
+          "correctIndex": 0
+        },
+        {
+          "statement": "Conditional Access →",
+          "options": ["Description 1", "Description 2", "Description 3"],
+          "correctIndex": 1
+        },
+        {
+          "statement": "B2B collaboration →",
+          "options": ["Description 1", "Description 2", "Description 3"],
+          "correctIndex": 2
+        }
+      ],
+      "explanation": "PIM provides just-in-time, time-bound, approval-based elevation to privileged roles (Description 1). Conditional Access evaluates signals — user, device, location, sign-in risk — to allow, block, or challenge access (Description 2). B2B collaboration invites external users who authenticate with their own home identities (Description 3).",
+      "deepDive": "These three are easy to confuse because they all touch access. PIM is about *time*: you are not a permanent admin, you request elevation when needed and it expires. Conditional Access is about *context*: it looks at signals in real time and decides. B2B is about *who*: guests from other organizations using their own credentials. If you map PIM to 'signals' you confused it with Conditional Access; if you map B2B to elevation you confused identity source with privilege."
+    },
+    {
+      "id": 4,
+      "type": "single",
+      "stem": "Which Microsoft service provides unified security posture management and threat protection for multicloud and hybrid resources, including a secure score?",
+      "choices": [
+        { "key": "A", "text": "Microsoft Sentinel", "correct": false },
+        { "key": "B", "text": "Microsoft Defender for Cloud", "correct": true },
+        { "key": "C", "text": "Microsoft Entra ID Protection", "correct": false },
+        { "key": "D", "text": "Microsoft Purview", "correct": false }
+      ],
+      "explanation": "The community key lists A (Microsoft Sentinel). Microsoft Sentinel is a cloud-native SIEM/SOAR for collecting and correlating signals and responding to incidents — it is not primarily a posture-management tool and does not own the Secure Score for resources.\n\n— Reviewer's note (Copilot) —\nThe phrase 'security posture management … including a secure score' describes Microsoft Defender for Cloud, not Sentinel. Defender for Cloud (formerly Azure Security Center) owns Cloud Secure Score and CSPM across multicloud/hybrid. This looks like an error in the published key.",
+      "reference": "https://learn.microsoft.com/azure/defender-for-cloud/secure-score-security-controls",
+      "review": {
+        "verdict": "disagree",
+        "confidence": "high",
+        "givenLabel": "A · Microsoft Sentinel",
+        "suggested": "B",
+        "suggestedLabel": "B · Microsoft Defender for Cloud"
+      },
+      "deepDive": "Two services get mixed up here. Microsoft Sentinel is the SIEM: it ingests logs from everywhere, correlates them into incidents, and automates response. Microsoft Defender for Cloud is the posture and workload-protection tool: it continuously assesses your resources against best practices, expresses that as a Secure Score, and protects workloads. 'Posture management' plus 'secure score' are Defender for Cloud's signature phrases, which is why the reviewer disagrees with a key that says Sentinel."
+    },
+    {
+      "id": 5,
+      "type": "single",
+      "stem": "A company uses the shared responsibility model shown in the exhibit. For an Infrastructure as a Service (IaaS) virtual machine, who is responsible for patching the guest operating system?",
+      "exhibitImages": ["sc-900-sample_q5_exhibit.png"],
+      "choices": [
+        { "key": "A", "text": "The cloud provider (Microsoft)", "correct": false },
+        { "key": "B", "text": "The customer", "correct": true },
+        { "key": "C", "text": "Responsibility is always shared equally", "correct": false },
+        { "key": "D", "text": "No one — IaaS VMs patch themselves automatically", "correct": false }
+      ],
+      "explanation": "Correct answer: B. In IaaS, the provider is responsible for the physical hosts, network, and datacenter, while the customer is responsible for the guest OS, applications, and data — including OS patching. Responsibility shifts toward the provider as you move from IaaS to PaaS to SaaS.",
+      "deepDive": "The shared responsibility model is a sliding scale. On-prem: you own everything. IaaS: the provider handles the physical layer and virtualization; you still own the OS upward, so guest-OS patching is yours. PaaS: the provider also patches the OS and runtime; you own your app and data. SaaS: you mostly just own your data and access. The distractor 'shared equally' is wrong because responsibility is split by layer, not by a fixed 50/50."
+    },
+    {
+      "id": 6,
+      "type": "image",
+      "subtype": "hotspot",
+      "stem": "HOTSPOT — In the Microsoft Purview compliance portal screenshot, select the area you would click to view your organization's Compliance Score. (This item is self-graded — reveal the answer, compare, and mark yourself.)",
+      "questionImages": ["sc-900-sample_q6_q.png"],
+      "answerImages": ["sc-900-sample_q6_a.png"],
+      "sourceImages": ["sc-900-sample_q6_src.png"],
+      "explanation": "Compliance Manager surfaces the overall Compliance Score on its dashboard tile. Selecting the score opens the breakdown of improvement actions grouped by control families, each worth points toward the total.",
+      "deepDive": "Compliance Manager measures how well your configuration aligns with regulations and standards, and rolls that up into a single Compliance Score. Higher is better. The score is made of 'improvement actions', some managed by Microsoft and some by you, and each is weighted by risk. Self-graded hotspot questions like this exist as a safety net when automatic answer detection from the PDF is not reliable."
+    },
+    {
+      "id": 7,
+      "type": "yesno",
+      "stem": "Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals.\n\nYou need to allow a group of external auditors to read files in a specific Microsoft 365 site for 30 days without creating accounts in your tenant.\n\nSolution: You share the site using Microsoft Entra B2B guest access and apply an access review that removes the guests after 30 days.\n\nDoes this meet the goal?",
+      "statements": [
+        { "text": "Does this solution meet the goal?", "correct": "Yes" }
+      ],
+      "explanation": "Yes. B2B guest access lets the auditors sign in with their own identities (no accounts created in your tenant), and an access review can automatically remove the guests after the review period, satisfying the 30-day limit.",
+      "seriesId": "auditor-access",
+      "seriesOrder": 0,
+      "seriesTitle": "Temporary external auditor access",
+      "seriesNote": "This question is part of a series of questions that present the same scenario. Each question presents a unique solution. Some questions may have more than one correct solution; others may not have a correct solution.",
+      "seriesScenario": "You need to allow a group of external auditors to read files in a specific Microsoft 365 site for 30 days, without creating new accounts in your tenant.",
+      "seriesSolution": "Solution: Share the site using Microsoft Entra B2B guest access and apply an access review that removes the guests after 30 days.",
+      "deepDive": "The goal has two hard requirements: no new tenant accounts, and automatic expiry at 30 days. B2B guest access nails the first (guests bring their own identity). Access reviews nail the second (they can auto-remove stale guests). Because both requirements are satisfied, this solution meets the goal."
+    },
+    {
+      "id": 8,
+      "type": "yesno",
+      "stem": "Solution: You create a new member account in your tenant for each auditor and delete the accounts manually after the audit.\n\nDoes this meet the goal?",
+      "statements": [
+        { "text": "Does this solution meet the goal?", "correct": "No" }
+      ],
+      "explanation": "No. Creating member accounts in your tenant directly violates the requirement to avoid creating new accounts, and manual deletion is error-prone with no guaranteed 30-day expiry.",
+      "seriesId": "auditor-access",
+      "seriesOrder": 1,
+      "seriesTitle": "Temporary external auditor access",
+      "seriesSolution": "Solution: Create a new member account in your tenant for each auditor and delete the accounts manually after the audit.",
+      "deepDive": "This fails the very first requirement — 'without creating new accounts in your tenant'. Member accounts are exactly that. Manual deletion also has no enforced 30-day boundary. Two strikes, so it does not meet the goal."
+    },
+    {
+      "id": 9,
+      "type": "yesno",
+      "stem": "Solution: You email the files to the auditors as attachments.\n\nDoes this meet the goal?",
+      "statements": [
+        { "text": "Does this solution meet the goal?", "correct": "No" }
+      ],
+      "explanation": "No. Emailing files does not provide governed, revocable read access to the site, has no 30-day access boundary, and creates uncontrolled copies of potentially sensitive data.",
+      "seriesId": "auditor-access",
+      "seriesOrder": 2,
+      "seriesTitle": "Temporary external auditor access",
+      "seriesSolution": "Solution: Email the files to the auditors as attachments.",
+      "deepDive": "The goal is governed, time-bound *read access to the site*. Email makes uncontrolled copies you can never revoke, gives no site access at all, and has no expiry mechanism. It fails every part of the goal."
+    },
+    {
+      "id": 10,
+      "type": "yesno",
+      "stem": "For each of the following statements about Microsoft Purview Data Loss Prevention (DLP), select Yes if the statement is true. Otherwise, select No.",
+      "statements": [
+        { "text": "DLP policies can detect sensitive information types such as credit card numbers in documents and emails.", "correct": "Yes" },
+        { "text": "DLP can block sharing of sensitive content in Microsoft Teams messages.", "correct": "Yes" },
+        { "text": "DLP is only able to scan data that is stored on-premises.", "correct": "No" }
+      ],
+      "explanation": "Statement 1 — Yes: DLP uses sensitive information types (SITs) like credit card or national ID numbers. Statement 2 — Yes: DLP policies extend to Teams chat and channel messages. Statement 3 — No: DLP protects cloud workloads (Exchange Online, SharePoint, OneDrive, Teams, and endpoints), not just on-premises data.",
+      "deepDive": "DLP works by recognizing sensitive information types and then enforcing actions (warn, block, encrypt) across locations. It is fundamentally a *cloud-first* control that also reaches endpoints — so any statement claiming it is 'on-premises only' is false. The first two statements describe core, true capabilities: SIT detection and Teams coverage."
+    }
+  ]
+}

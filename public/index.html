@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certification Trainer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topnav">
+    <div class="brand">🎓 Certification Trainer</div>
+    <nav>
+      <button class="navlink active" data-page="practice">Practice</button>
+      <button class="navlink" data-page="import">Add exam (PDF)</button>
+    </nav>
+  </header>
+
+  <main id="view"></main>
+
+  <!-- ============ PRACTICE PAGE ============ -->
+  <template id="tpl-practice">
+    <section class="page">
+      <div class="card">
+        <h1>Practice</h1>
+        <div class="field">
+          <label for="examSelect">Exam</label>
+          <select id="examSelect"></select>
+          <div class="meta-line" id="examMeta"></div>
+        </div>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="numQuestions">Number of questions</label>
+            <input type="number" id="numQuestions" min="1" value="20">
+          </div>
+          <div class="field">
+            <label for="lookback">Look-back window (recent sessions)</label>
+            <input type="number" id="lookback" min="1" value="3">
+          </div>
+        </div>
+
+        <div class="field checks">
+          <label class="check"><input type="checkbox" id="optWrong">
+            <span id="lblWrong">Prioritize questions I got wrong</span></label>
+          <label class="check"><input type="checkbox" id="optUnseen">
+            <span id="lblUnseen">Include questions not seen recently</span></label>
+          <label class="check"><input type="checkbox" id="optExam">
+            <span>Reveal answers only at the end (exam mode)</span></label>
+        </div>
+
+        <div class="selection-note" id="selectionNote"></div>
+        <button class="primary big" id="startBtn">Start practice ▶</button>
+      </div>
+
+      <div class="card">
+        <h2>Your recent sessions</h2>
+        <div id="recentSessions" class="recent-list"><p class="muted">No sessions yet.</p></div>
+      </div>
+
+      <div class="card">
+        <h2>Available exams</h2>
+        <div id="examList" class="exam-list"></div>
+      </div>
+    </section>
+  </template>
+
+  <!-- ============ QUIZ PAGE ============ -->
+  <template id="tpl-quiz">
+    <section class="page quiz">
+      <div class="quiz-top">
+        <div class="progress"><div class="bar" id="progressBar"></div></div>
+        <div class="quiz-meta">
+          <span id="qCounter"></span>
+          <span id="modeBadge" class="mode-badge"></span>
+        </div>
+      </div>
+      <div class="card" id="questionHost"></div>
+      <div class="quiz-nav">
+        <button class="ghost" id="quitBtn">Quit &amp; see score</button>
+        <div class="spacer"></div>
+        <button class="secondary" id="revealBtn">Show answer(s)</button>
+        <button class="primary" id="nextBtn" style="display:none">Next question ›</button>
+      </div>
+    </section>
+  </template>
+
+  <!-- ============ RESULTS PAGE ============ -->
+  <template id="tpl-results">
+    <section class="page">
+      <div class="card">
+        <h1>Session results</h1>
+        <div id="resultSummary" class="result-summary"></div>
+      </div>
+      <div class="card">
+        <h2>Per-question breakdown</h2>
+        <div id="resultBreakdown" class="breakdown"></div>
+      </div>
+      <div class="card" id="reviewCard">
+        <h2>Review your incorrect answers</h2>
+        <div id="resultReview"></div>
+      </div>
+      <div class="quiz-nav">
+        <button class="primary" id="backToPractice">Back to practice</button>
+      </div>
+    </section>
+  </template>
+
+  <!-- ============ IMPORT PAGE ============ -->
+  <template id="tpl-import">
+    <section class="page">
+      <div class="card">
+        <h1>Add an exam from a PDF</h1>
+        <p class="muted">Upload a CertyIQ-style exam dump. Parsing runs OCR on every
+          hotspot and may take several minutes for large PDFs.</p>
+        <div class="field">
+          <label for="examName">Exam name</label>
+          <input type="text" id="examName" placeholder="e.g. SC-900">
+        </div>
+        <div class="field">
+          <label for="pdfFile">PDF file</label>
+          <input type="file" id="pdfFile" accept="application/pdf">
+        </div>
+        <button class="primary big" id="uploadBtn">Upload &amp; parse</button>
+        <div id="importStatus" class="import-status"></div>
+      </div>
+    </section>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
