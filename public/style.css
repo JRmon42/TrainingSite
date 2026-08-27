@@ -183,3 +183,18 @@ details.collapsible summary { cursor: pointer; color: var(--accent); padding: 8p
   .grid2 { grid-template-columns: 1fr; }
   .result-summary { flex-direction: column; align-items: flex-start; }
 }
+
+/* View-in-source-PDF button */
+.pdf-link { margin-top: 12px; }
+.pdf-btn {
+  display: inline-block;
+  padding: 7px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0b5fff;
+  background: #eef3ff;
+  border: 1px solid #cfe0ff;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.pdf-btn:hover { background: #dfeaff; }

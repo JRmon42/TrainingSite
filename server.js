@@ -13,6 +13,7 @@ const DATA = process.env.DATA_DIR
   : path.join(ROOT, "data");
 const EXAMS_DIR = path.join(DATA, "exams");
 const IMAGES_DIR = path.join(DATA, "images");
+const PDFS_DIR = path.join(DATA, "pdfs");
 const HISTORY_DIR = path.join(DATA, "history");
 const UPLOADS_DIR = path.join(DATA, "uploads");
 const TOOLS_DIR = path.join(ROOT, "tools");
@@ -21,7 +22,7 @@ const PUBLIC_DIR = path.join(ROOT, "public");
 const PORT = process.env.PORT || 3000;
 const PYTHON = process.env.PYTHON || "python3";
 
-for (const d of [EXAMS_DIR, IMAGES_DIR, HISTORY_DIR, UPLOADS_DIR]) {
+for (const d of [EXAMS_DIR, IMAGES_DIR, PDFS_DIR, HISTORY_DIR, UPLOADS_DIR]) {
   fs.mkdirSync(d, { recursive: true });
 }
 
@@ -29,6 +30,8 @@ const app = express();
 app.use(express.json({ limit: "5mb" }));
 app.use(express.static(PUBLIC_DIR));
 app.use("/images", express.static(IMAGES_DIR));
+// Source exam PDFs, so a question can be opened at its page (#page=N) in the viewer.
+app.use("/pdfs", express.static(PDFS_DIR));
 
 // Health probe (excluded from auth) for App Service / container health checks.
 app.get("/health", (req, res) => {
@@ -154,6 +157,8 @@ function startParseJob(pdfPath, examId, name) {
       let summary = null;
       const lines = lastStdout.trim().split(/\r?\n/);
       try { summary = JSON.parse(lines[lines.length - 1]); } catch { /* ignore */ }
+      // Keep the source PDF so questions can be opened at their page (#page=N).
+      try { fs.copyFileSync(pdfPath, path.join(PDFS_DIR, `${examId}.pdf`)); } catch { /* ignore */ }
       job.status = "done";
       job.summary = summary;
     } else if (job.status !== "error") {

@@ -426,6 +426,13 @@ function mountQuestion(host, q, idx) {
   const srcBlock = sourceImagesBlock(q);
   if (srcBlock) div.insertAdjacentHTML("beforeend", srcBlock);
 
+  // "view in source PDF" button — opens the exam PDF at this question's page
+  if (q.pdfFile && q.pdfPage) {
+    const url = `/pdfs/${encodeURIComponent(q.pdfFile)}#page=${q.pdfPage}`;
+    div.insertAdjacentHTML("beforeend",
+      `<div class="pdf-link"><a class="pdf-btn" href="${url}" target="_blank" rel="noopener">📄 View this question in the source PDF (page ${q.pdfPage})</a></div>`);
+  }
+
   // grade chooser for disagree questions
   if (q.review && q.review.verdict === "disagree") {
     const gc = document.createElement("div");

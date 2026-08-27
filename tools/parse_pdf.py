@@ -218,6 +218,10 @@ def try_detect_from_image(png_path):
 def build_question(parsed, pdf_path, exam_id, images_dir):
     num = parsed["num"]
     q = {"id": num, "stem": parsed["stem"], "explanation": parsed.get("explanation", "")}
+    # Link back to the source PDF page (1-based) so the UI can open it at #page=N.
+    if parsed.get("page") is not None:
+        q["pdfFile"] = f"{exam_id}.pdf"
+        q["pdfPage"] = parsed["page"] + 1
 
     if parsed["is_hotspot"] or not parsed["options"]:
         # image / self-graded fallback (optionally with cropped page image)
