@@ -300,8 +300,10 @@ function effMulti(q, idx) {
   return (q.choices || []).filter(x => x.correct).map(x => x.key);
 }
 function effDropdown(q, idx) {
-  if (usesReviewer(q, idx)) return q.review.suggested.slice();
-  return (q.blanks || []).map(b => b.correctIndex);
+  const blanks = q.blanks || [];
+  const idxArr = usesReviewer(q, idx) ? q.review.suggested.slice() : blanks.map(b => b.correctIndex);
+  // return the correct *text* per blank (drag-and-drop is graded by value, not index)
+  return blanks.map((b, j) => ((b.options || [])[idxArr[j]]) ?? "");
 }
 function effYesno(q, idx) {
   if (usesReviewer(q, idx)) return q.review.suggested.slice();
@@ -375,6 +377,81 @@ function sourceImagesBlock(q) {
   return `<details class="collapsible"><summary>Show original question (as in the exam PDF)</summary>${body}</details>`;
 }
 
+/* ===================== Drag & drop (dropdown-type) ===================== */
+function dndHtml(q) {
+  const blanks = q.blanks || [];
+  const seen = new Set();
+  const bank = [];
+  blanks.forEach(b => (b.options || []).forEach(o => { if (!seen.has(o)) { seen.add(o); bank.push(o); } }));
+  const chips = bank.map(o =>
+    `<div class="dnd-chip" draggable="true" data-val="${escapeHtml(o)}">${escapeHtml(o)}</div>`).join("");
+  const targets = blanks.map((b, j) =>
+    `<div class="dnd-target-row" data-blank="${j}">
+       <span class="dnd-label">${escapeHtml(b.statement || ("Box " + (j + 1)))}</span>
+       <div class="dnd-slot" data-blank="${j}" data-val=""><span class="dnd-ph">Drop a value…</span></div>
+       <button type="button" class="dnd-clear" data-blank="${j}" title="Clear this box">✕</button>
+       <span class="dnd-fb"></span>
+     </div>`).join("");
+  return `<div class="dnd">
+    <div class="dnd-bank">
+      <div class="dnd-col-title">Values</div>
+      <div class="dnd-chips">${chips}</div>
+      <div class="dnd-hint">Drag a value onto a box — or tap a value, then tap a box. A value can be used once, more than once, or not at all.</div>
+    </div>
+    <div class="dnd-answer">
+      <div class="dnd-col-title">Answer area</div>
+      ${targets}
+    </div>
+  </div>`;
+}
+
+function wireDnd(root, q, idx) {
+  const dnd = root.querySelector(".dnd");
+  if (!dnd) return;
+  const locked = () => dnd.classList.contains("locked");
+  let selectedChip = null;
+  const setSlot = (slot, val) => {
+    slot.dataset.val = val || "";
+    slot.innerHTML = val ? `<span class="dnd-val">${escapeHtml(val)}</span>` : `<span class="dnd-ph">Drop a value…</span>`;
+    slot.classList.toggle("filled", !!val);
+  };
+  dnd.querySelectorAll(".dnd-chip").forEach(chip => {
+    chip.addEventListener("dragstart", e => {
+      if (locked()) { e.preventDefault(); return; }
+      e.dataTransfer.setData("text/plain", chip.dataset.val);
+      e.dataTransfer.effectAllowed = "copy";
+    });
+    chip.addEventListener("click", () => {
+      if (locked()) return;
+      if (selectedChip === chip) { chip.classList.remove("selected"); selectedChip = null; return; }
+      if (selectedChip) selectedChip.classList.remove("selected");
+      selectedChip = chip; chip.classList.add("selected");
+    });
+  });
+  dnd.querySelectorAll(".dnd-slot").forEach(slot => {
+    slot.addEventListener("dragover", e => { if (!locked()) { e.preventDefault(); slot.classList.add("over"); } });
+    slot.addEventListener("dragleave", () => slot.classList.remove("over"));
+    slot.addEventListener("drop", e => {
+      e.preventDefault(); slot.classList.remove("over");
+      if (locked()) return;
+      const val = e.dataTransfer.getData("text/plain");
+      if (val) setSlot(slot, val);
+    });
+    slot.addEventListener("click", () => {
+      if (locked() || !selectedChip) return;
+      setSlot(slot, selectedChip.dataset.val);
+      selectedChip.classList.remove("selected"); selectedChip = null;
+    });
+  });
+  dnd.querySelectorAll(".dnd-clear").forEach(btn => {
+    btn.addEventListener("click", () => {
+      if (locked()) return;
+      const slot = dnd.querySelector(`.dnd-slot[data-blank="${btn.dataset.blank}"]`);
+      if (slot) setSlot(slot, "");
+    });
+  });
+}
+
 /* ===================== Mount a single question ===================== */
 function mountQuestion(host, q, idx) {
   const div = document.createElement("div");
@@ -397,15 +474,8 @@ function mountQuestion(host, q, idx) {
         <span><span class="ckey">${c.key}.</span> ${escapeHtml(c.text)}</span>
       </label>`).join("") + `</div>`;
   } else if (q.type === "dropdown") {
-    inputs.innerHTML = (q.blanks || []).map((b, j) =>
-      `<div class="blank-row" data-blank="${j}">
-        <span class="stmt">${escapeHtml(b.statement || "")}</span>
-        <select data-blank="${j}">
-          <option value="-1">— choose —</option>
-          ${(b.options || []).map((o, oi) => `<option value="${oi}">${escapeHtml(o)}</option>`).join("")}
-        </select>
-        <span class="blank-fb"></span>
-      </div>`).join("");
+    inputs.innerHTML = dndHtml(q);
+    wireDnd(inputs, q, idx);
   } else if (q.type === "yesno") {
     inputs.innerHTML = (q.statements || []).map((s, j) =>
       `<div class="yn-row" data-stmt="${j}">
@@ -466,8 +536,9 @@ function captureAnswer(q, idx) {
   }
   if (q.type === "dropdown") {
     return (q.blanks || []).map((_, j) => {
-      const s = $(`select[data-blank="${j}"]`, div);
-      return s ? parseInt(s.value, 10) : -1;
+      const slot = $(`.dnd-slot[data-blank="${j}"]`, div);
+      const v = slot ? (slot.dataset.val || "") : "";
+      return v || null;
     });
   }
   if (q.type === "yesno") {
@@ -496,12 +567,14 @@ function revealAnswer(q, idx, captured) {
     });
   } else if (q.type === "dropdown") {
     const correct = effDropdown(q, idx);
-    $$(".blank-row", div).forEach(row => {
+    const dnd = $(".dnd", div);
+    if (dnd) dnd.classList.add("locked");
+    $$(".dnd-chip", div).forEach(c => c.setAttribute("draggable", "false"));
+    $$(".dnd-target-row", div).forEach(row => {
       const j = +row.dataset.blank;
-      const sel = $("select", row); sel.disabled = true;
       const ok = (captured || [])[j] === correct[j];
       row.classList.add(ok ? "correct" : "wrong");
-      if (!ok) $(".blank-fb", row).textContent = "✓ " + (q.blanks[j].options[correct[j]] || "");
+      if (!ok) $(".dnd-fb", row).textContent = "✓ " + (correct[j] || "");
     });
   } else if (q.type === "yesno") {
     const correct = effYesno(q, idx);
@@ -829,12 +902,11 @@ function renderReviewQuestion(q, idx) {
   } else if (q.type === "dropdown") {
     const correct = effDropdown(q, idx);
     body += (q.blanks || []).map((b, j) => {
-      const sel = (captured || [])[j];
-      const ok = sel === correct[j];
-      const yours = sel >= 0 ? b.options[sel] : "—";
+      const yours = (captured || [])[j] || "—";
+      const ok = yours === correct[j];
       return `<div class="blank-row ${ok ? "correct" : "wrong"}">
         <span class="stmt">${escapeHtml(b.statement || "")}</span>
-        <span>Your answer: <b>${escapeHtml(yours)}</b>${ok ? "" : ` · Correct: <b>${escapeHtml(b.options[correct[j]] || "")}</b>`}</span>
+        <span>Your answer: <b>${escapeHtml(yours)}</b>${ok ? "" : ` · Correct: <b>${escapeHtml(correct[j] || "")}</b>`}</span>
       </div>`;
     }).join("");
   } else if (q.type === "yesno") {

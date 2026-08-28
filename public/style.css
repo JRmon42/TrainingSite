@@ -126,6 +126,32 @@ button.danger:hover { border-color: var(--red); }
 .blank-row.wrong select { border-color: var(--red); }
 .blank-fb { font-size: .82rem; margin-left: 6px; }
 
+/* Drag & drop (dropdown-type questions) */
+.dnd { display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: 18px; margin: 12px 0; align-items: start; }
+.dnd-col-title { font-weight: 600; font-size: .9rem; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: .03em; }
+.dnd-bank { background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+.dnd-chips { display: flex; flex-direction: column; gap: 8px; }
+.dnd-chip { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; cursor: grab; font-size: .9rem; word-break: break-word; transition: border-color .12s, background .12s; }
+.dnd-chip:hover { border-color: var(--accent, #4c8bf5); }
+.dnd-chip.selected { border-color: var(--accent, #4c8bf5); background: rgba(76, 139, 245, .12); }
+.dnd.locked .dnd-chip { cursor: default; opacity: .7; }
+.dnd-hint { font-size: .78rem; color: var(--muted); margin-top: 10px; line-height: 1.4; }
+.dnd-answer { display: flex; flex-direction: column; gap: 10px; }
+.dnd-target-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.dnd-label { flex: 0 0 auto; min-width: 160px; max-width: 320px; font-size: .92rem; }
+.dnd-slot { flex: 1; min-width: 180px; min-height: 40px; display: flex; align-items: center; padding: 6px 10px; border: 2px dashed var(--border); border-radius: 8px; background: var(--panel); }
+.dnd-slot.over { border-color: var(--accent, #4c8bf5); background: rgba(76, 139, 245, .1); }
+.dnd-slot.filled { border-style: solid; }
+.dnd-slot .dnd-ph { color: var(--muted); font-size: .85rem; }
+.dnd-slot .dnd-val { font-size: .9rem; word-break: break-word; }
+.dnd-target-row.correct .dnd-slot { border-color: var(--green); }
+.dnd-target-row.wrong .dnd-slot { border-color: var(--red); }
+.dnd-clear { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; cursor: pointer; padding: 2px 8px; font-size: .8rem; }
+.dnd-clear:hover { color: var(--red); border-color: var(--red); }
+.dnd.locked .dnd-clear { display: none; }
+.dnd-fb { font-size: .82rem; flex-basis: 100%; }
+@media (max-width: 640px) { .dnd { grid-template-columns: 1fr; } }
+
 .yn-row { display: flex; align-items: center; gap: 14px; margin: 10px 0; padding: 10px 12px; background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; flex-wrap: wrap; }
 .yn-row .yn-text { flex: 1; min-width: 220px; }
 .yn-row .yn-opts { display: flex; gap: 12px; }
