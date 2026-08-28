@@ -496,11 +496,33 @@ function mountQuestion(host, q, idx) {
   const srcBlock = sourceImagesBlock(q);
   if (srcBlock) div.insertAdjacentHTML("beforeend", srcBlock);
 
-  // "view in source PDF" button — opens the exam PDF at this question's page
+  // "view in source PDF" button — embeds the exam PDF at this question's page inline
   if (q.pdfFile && q.pdfPage) {
     const url = `/pdfs/${encodeURIComponent(q.pdfFile)}#page=${q.pdfPage}`;
     div.insertAdjacentHTML("beforeend",
-      `<div class="pdf-link"><a class="pdf-btn" href="${url}" target="_blank" rel="noopener">📄 View this question in the source PDF (page ${q.pdfPage})</a></div>`);
+      `<div class="pdf-link">
+        <button type="button" class="pdf-btn" data-pdf-toggle>📄 View this question in the source PDF (page ${q.pdfPage})</button>
+        <div class="pdf-embed" hidden>
+          <div class="pdf-embed-bar">
+            <span class="muted">Source PDF — page ${q.pdfPage}</span>
+            <a class="pdf-open-tab" href="${url}" target="_blank" rel="noopener">Open in new tab ↗</a>
+          </div>
+          <iframe class="pdf-frame" title="Source PDF page ${q.pdfPage}" loading="lazy" data-src="${url}"></iframe>
+        </div>
+      </div>`);
+    const pdfWrap = div.querySelector(".pdf-link");
+    const toggleBtn = pdfWrap.querySelector("[data-pdf-toggle]");
+    const embed = pdfWrap.querySelector(".pdf-embed");
+    const frame = pdfWrap.querySelector(".pdf-frame");
+    toggleBtn.onclick = () => {
+      const show = embed.hidden;
+      if (show && !frame.src) frame.src = frame.dataset.src; // lazy-load on first open
+      embed.hidden = !show;
+      toggleBtn.classList.toggle("active", show);
+      toggleBtn.textContent = show
+        ? `📄 Hide the source PDF (page ${q.pdfPage})`
+        : `📄 View this question in the source PDF (page ${q.pdfPage})`;
+    };
   }
 
   // grade chooser for disagree questions
