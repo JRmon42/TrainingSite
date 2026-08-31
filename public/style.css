@@ -257,3 +257,58 @@ details.collapsible summary { cursor: pointer; color: var(--accent); padding: 8p
   border: 0;
   background: #fff;
 }
+
+/* ---- case study / same-scenario group banner ---- */
+.group-banner {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent, #0b5fff);
+  border-radius: 8px;
+  background: var(--panel2);
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+.group-banner.is-series { border-left-color: var(--yellow, #d29922); }
+.group-head { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.group-badge {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent, #0b5fff);
+  color: #fff;
+}
+.group-banner.is-series .group-badge { background: var(--yellow, #d29922); color: #1b1b1b; }
+.group-title { font-weight: 600; }
+.group-pos { margin-left: auto; font-size: .82rem; color: var(--muted); white-space: nowrap; }
+.group-note { font-size: .84rem; color: var(--muted); font-style: italic; margin-top: 6px; }
+.group-scenario { margin-top: 10px; }
+.group-scenario > summary {
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--accent, #0b5fff);
+  list-style: none;
+  user-select: none;
+}
+.group-scenario > summary::-webkit-details-marker { display: none; }
+.group-scenario-body {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: var(--panel, #fff);
+  border: 1px solid var(--border);
+  line-height: 1.55;
+  white-space: pre-wrap;
+  max-height: 340px;
+  overflow-y: auto;
+}
+.bd-group, .review-group {
+  font-size: .78rem;
+  font-weight: 700;
+  color: var(--accent, #0b5fff);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+.review-group { display: block; margin-bottom: 6px; }

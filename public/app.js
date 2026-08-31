@@ -202,10 +202,56 @@ function buildUnits(questions) {
         members,
       });
     } else {
-      units.push({ kind: "single", members: [q] });
+      // Grouped questions (case studies / same-scenario series) stay one
+      // question per page, but carry their group so they can be kept together.
+      units.push({
+        kind: "single",
+        members: [q],
+        groupId: q.groupId || null,
+        groupKind: q.groupKind || null,
+        groupTitle: q.groupTitle || "",
+        groupScenario: q.groupScenario || "",
+        groupNote: q.groupNote || "",
+        groupOrder: q.groupOrder || 0,
+        groupSize: q.groupSize || 0,
+      });
     }
   }
   return units;
+}
+
+/* Pull in every sibling of a picked group, then order so that all members of a
+   group sit consecutively (in their exam order) at the group's first position. */
+function groupUnits(picks, allUnits) {
+  const byGroup = new Map();
+  for (const u of allUnits) {
+    if (!u.groupId) continue;
+    if (!byGroup.has(u.groupId)) byGroup.set(u.groupId, []);
+    byGroup.get(u.groupId).push(u);
+  }
+  if (!byGroup.size) return picks;
+  for (const list of byGroup.values()) {
+    list.sort((a, b) => (a.groupOrder || 0) - (b.groupOrder || 0));
+  }
+
+  const out = [];
+  const done = new Set();
+  const emittedGroups = new Set();
+  for (const u of picks) {
+    if (done.has(u)) continue;
+    if (u.groupId && byGroup.has(u.groupId)) {
+      if (emittedGroups.has(u.groupId)) continue;
+      emittedGroups.add(u.groupId);
+      // "All questions of this case study/scenario, consecutively."
+      for (const sib of byGroup.get(u.groupId)) {
+        if (done.has(sib)) continue;
+        done.add(sib); out.push(sib);
+      }
+    } else {
+      done.add(u); out.push(u);
+    }
+  }
+  return out;
 }
 
 function unitHasMember(unit, idSet) { return unit.members.some(m => idSet.has(m.id)); }
@@ -245,6 +291,46 @@ function ensureOneSeries(picks, allUnits, n) {
   return picks;
 }
 
+/* Trim to roughly n questions, but never cut a group in half. */
+function trimToQuestionCount(ordered, n) {
+  const out = [];
+  let count = 0;
+  for (let i = 0; i < ordered.length; i++) {
+    const u = ordered[i];
+    // Once the target is met, stop at the next group boundary.
+    if (count >= n && (!u.groupId || u.groupId !== ordered[i - 1]?.groupId)) break;
+    out.push(u);
+    count += u.members.length;
+  }
+  return out.length ? out : ordered.slice(0, 1);
+}
+
+function groupBanner(unit) {
+  const isCase = unit.groupKind === "case-study";
+  const label = isCase ? "case study" : "same scenario";
+  const pos = unit.groupSize
+    ? `Question ${unit.groupOrder} of ${unit.groupSize}`
+    : "";
+  // Open on the first question of the group, collapsed afterwards, so the long
+  // scenario does not have to be re-read for every question.
+  const open = unit.groupOrder <= 1 ? " open" : "";
+  const scenario = unit.groupScenario
+    ? `<details class="group-scenario"${open}>
+         <summary>📋 ${isCase ? "Case study scenario" : "Shared scenario"} — click to ${unit.groupOrder <= 1 ? "hide" : "show"}</summary>
+         <div class="group-scenario-body">${escapeHtml(unit.groupScenario)}</div>
+       </details>`
+    : "";
+  return `<div class="group-banner ${isCase ? "is-case" : "is-series"}">
+      <div class="group-head">
+        <span class="group-badge">${label}</span>
+        <span class="group-title">${escapeHtml(unit.groupTitle || "")}</span>
+        ${pos ? `<span class="group-pos">${pos}</span>` : ""}
+      </div>
+      ${unit.groupNote ? `<div class="group-note">${escapeHtml(unit.groupNote)}</div>` : ""}
+      ${scenario}
+    </div>`;
+}
+
 /* ===================== Start practice ===================== */
 function startPractice() {
   if (!state.exam) return;
@@ -257,6 +343,9 @@ function startPractice() {
   const units = buildUnits(state.exam.questions);
   let picks = selectUnits(units, n, state.analysis, optWrong, optUnseen);
   picks = ensureOneSeries(picks, units, n);
+  // Keep every case study / same-scenario series intact and consecutive.
+  picks = groupUnits(picks, units);
+  picks = trimToQuestionCount(picks, n);
 
   // flatten
   const members = [];
@@ -459,7 +548,9 @@ function mountQuestion(host, q, idx) {
   div.dataset.midx = idx;
 
   let inner = `<div class="type-badge">${q.type}${q.subtype ? " · " + q.subtype : ""}</div>`;
-  inner += `<div class="stem">${escapeHtml(q.stem || "")}</div>`;
+  // Grouped questions render only their own text; the shared case-study /
+  // scenario body is shown once in the group banner above.
+  inner += `<div class="stem">${escapeHtml(q.groupStem || q.stem || "")}</div>`;
   inner += stemExtras(q);
   inner += `<div class="inputs"></div>`;
   div.innerHTML = inner;
@@ -700,6 +791,7 @@ function renderQuiz() {
       mountQuestion(sub, m, unit._range[0] + k);
     });
   } else {
+    if (unit.groupId) host.insertAdjacentHTML("beforeend", groupBanner(unit));
     mountQuestion(host, unit.members[0], unit._range[0]);
   }
 
@@ -875,9 +967,16 @@ function renderResults() {
     for (let i = unit._range[0]; i < unit._range[1]; i++) { e += s.answers[i].score.earned; p += s.answers[i].score.possible; }
     const cls2 = e === p ? "full" : e === 0 ? "zero" : "partial";
     const badge = e === p ? "✓" : `${e}/${p}`;
+    const snippet = (q) => {
+      const t = q.groupStem || q.stem || "";
+      return escapeHtml(t.slice(0, 100)) + (t.length > 100 ? "…" : "");
+    };
+    const m0 = unit.members[0];
     const title = unit.kind === "series"
       ? `Series: ${escapeHtml(unit.title)} (${unit.members.length} solutions)`
-      : escapeHtml((unit.members[0].stem || "").slice(0, 100)) + ((unit.members[0].stem || "").length > 100 ? "…" : "");
+      : (unit.groupId
+        ? `<span class="bd-group">${escapeHtml(unit.groupTitle || "")} · Q${unit.groupOrder}/${unit.groupSize}</span> ${snippet(m0)}`
+        : snippet(m0));
     let subRows = "";
     if (unit.kind === "series") {
       subRows = `<div class="sub-rows">` + unit.members.map((m, k) => {
@@ -910,7 +1009,11 @@ function renderResults() {
 
 function renderReviewQuestion(q, idx) {
   const captured = state.session.answers[idx].captured;
-  let body = `<div class="stem">${escapeHtml(q.stem || "")}</div>` + stemExtras(q);
+  const groupTag = q.groupId
+    ? `<div class="review-group">${escapeHtml(q.groupTitle || "")} · Question ${q.groupOrder} of ${q.groupSize}</div>`
+    : "";
+  let body = groupTag
+    + `<div class="stem">${escapeHtml(q.groupStem || q.stem || "")}</div>` + stemExtras(q);
 
   if (q.type === "single" || q.type === "multi") {
     const correct = new Set(q.type === "single" ? [effSingle(q, idx)] : effMulti(q, idx));
