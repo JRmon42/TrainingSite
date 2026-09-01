@@ -81,6 +81,7 @@ async function renderPractice() {
   $("#lookback").oninput = () => refreshAnalysis();
   $("#optWrong").onchange = updateSelectionNote;
   $("#optUnseen").onchange = updateSelectionNote;
+  $("#numQuestions").oninput = updateSelectionNote;
   $("#startBtn").onclick = startPractice;
 
   if (state.exams.length) await selectExam(state.exams[0].id);
@@ -131,7 +132,28 @@ function updateSelectionNote() {
     if (unseen) tiers.push("questions you haven’t seen recently");
     note = `Selection: prioritize ${tiers.join(", then ")}, then fill the rest at random.`;
   }
-  $("#selectionNote").textContent = note;
+  $("#selectionNote").textContent = note + groupFitNote();
+}
+
+/* Case studies and scenario series are always kept whole, so they can only be
+   drawn when the requested question count leaves room for all of their
+   questions. Tell the user when their count is too small. */
+function groupFitNote() {
+  if (!state.exam) return "";
+  const n = parseInt($("#numQuestions").value, 10) || 0;
+  const sizes = new Map();
+  for (const q of state.exam.questions) {
+    if (q.groupId) sizes.set(q.groupId, q.groupSize || 0);
+  }
+  if (!sizes.size) return "";
+  const all = [...sizes.values()];
+  const smallest = Math.min(...all);
+  const excluded = all.filter(s => s > n).length;
+  if (!excluded) return " Case studies and scenario series are included in full.";
+  if (excluded === all.length) {
+    return ` Note: case studies/scenario series are kept whole — ask for at least ${smallest} questions to include one.`;
+  }
+  return ` Note: ${excluded} case study/scenario set${excluded > 1 ? "s are" : " is"} too large for ${n} questions and will be skipped (they are always kept whole).`;
 }
 
 function renderRecentSessions() {
@@ -220,44 +242,26 @@ function buildUnits(questions) {
   return units;
 }
 
-/* Pull in every sibling of a picked group, then order so that all members of a
-   group sit consecutively (in their exam order) at the group's first position. */
-function groupUnits(picks, allUnits) {
+/* Group lookup: groupId -> its units, in exam order. */
+function groupIndex(allUnits) {
   const byGroup = new Map();
   for (const u of allUnits) {
     if (!u.groupId) continue;
     if (!byGroup.has(u.groupId)) byGroup.set(u.groupId, []);
     byGroup.get(u.groupId).push(u);
   }
-  if (!byGroup.size) return picks;
   for (const list of byGroup.values()) {
     list.sort((a, b) => (a.groupOrder || 0) - (b.groupOrder || 0));
   }
-
-  const out = [];
-  const done = new Set();
-  const emittedGroups = new Set();
-  for (const u of picks) {
-    if (done.has(u)) continue;
-    if (u.groupId && byGroup.has(u.groupId)) {
-      if (emittedGroups.has(u.groupId)) continue;
-      emittedGroups.add(u.groupId);
-      // "All questions of this case study/scenario, consecutively."
-      for (const sib of byGroup.get(u.groupId)) {
-        if (done.has(sib)) continue;
-        done.add(sib); out.push(sib);
-      }
-    } else {
-      done.add(u); out.push(u);
-    }
-  }
-  return out;
+  return byGroup;
 }
 
 function unitHasMember(unit, idSet) { return unit.members.some(m => idSet.has(m.id)); }
 
-function selectUnits(units, n, analysis, optWrong, optUnseen) {
-  if (!optWrong && !optUnseen) return shuffle(units).slice(0, n);
+/* Candidate units in preference order (no truncation — packUnits enforces the
+   question budget, since one unit may carry several questions). */
+function orderCandidates(units, analysis, optWrong, optUnseen) {
+  if (!optWrong && !optUnseen) return shuffle(units);
 
   const incorrect = new Set(analysis.incorrect || []);
   const seen = new Set(analysis.seen || []);
@@ -269,40 +273,49 @@ function selectUnits(units, n, analysis, optWrong, optUnseen) {
   const t2set = new Set(tier2);
   const tier3 = units.filter(u => !t1set.has(u) && !t2set.has(u));
 
-  const ordered = [...shuffle(tier1), ...shuffle(tier2), ...shuffle(tier3)];
+  return [...shuffle(tier1), ...shuffle(tier2), ...shuffle(tier3)];
+}
+
+/* Fill up to exactly n questions. A case study / scenario series is taken whole
+   or not at all, so a group that no longer fits in the remaining budget is
+   skipped and the budget is spent on other questions instead. */
+function packUnits(candidates, n, allUnits) {
+  const byGroup = groupIndex(allUnits);
   const out = [];
-  const seenUnit = new Set();
-  for (const u of ordered) {
-    if (seenUnit.has(u)) continue;
-    seenUnit.add(u); out.push(u);
-    if (out.length >= n) break;
+  const used = new Set();
+  const usedGroups = new Set();
+  let count = 0;
+  const skippedGroups = new Set();
+
+  for (const u of candidates) {
+    if (count >= n) break;
+    if (used.has(u)) continue;
+
+    if (u.groupId && byGroup.has(u.groupId)) {
+      if (usedGroups.has(u.groupId)) continue;
+      const sibs = byGroup.get(u.groupId);
+      if (count + sibs.length > n) { skippedGroups.add(u.groupId); continue; }
+      usedGroups.add(u.groupId);
+      for (const s of sibs) { used.add(s); out.push(s); }
+      count += sibs.length;
+    } else {
+      if (count + u.members.length > n) continue;
+      used.add(u); out.push(u); count += u.members.length;
+    }
   }
+  out._skippedGroups = skippedGroups.size;
   return out;
 }
 
-function ensureOneSeries(picks, allUnits, n) {
-  const allSeries = allUnits.filter(u => u.kind === "series");
-  if (!allSeries.length) return picks;
-  if (picks.some(u => u.kind === "series")) return picks;
-  const pickSet = new Set(picks);
-  const candidate = shuffle(allSeries).find(u => !pickSet.has(u)) || allSeries[0];
-  if (picks.length < n) picks.push(candidate);
-  else picks[picks.length - 1] = candidate;
-  return picks;
-}
-
-/* Trim to roughly n questions, but never cut a group in half. */
-function trimToQuestionCount(ordered, n) {
-  const out = [];
-  let count = 0;
-  for (let i = 0; i < ordered.length; i++) {
-    const u = ordered[i];
-    // Once the target is met, stop at the next group boundary.
-    if (count >= n && (!u.groupId || u.groupId !== ordered[i - 1]?.groupId)) break;
-    out.push(u);
-    count += u.members.length;
-  }
-  return out.length ? out : ordered.slice(0, 1);
+/* Give one multi-solution series a chance to appear, by moving it to the front
+   of the candidate list. It is still subject to the question budget. */
+function preferOneSeries(candidates) {
+  const seriesIdx = candidates.findIndex(u => u.kind === "series");
+  if (seriesIdx <= 0) return candidates;
+  const out = candidates.slice();
+  const [pick] = out.splice(seriesIdx, 1);
+  out.unshift(pick);
+  return out;
 }
 
 function groupBanner(unit) {
@@ -341,11 +354,11 @@ function startPractice() {
   const mode = $("#optExam").checked ? "exam" : "normal";
 
   const units = buildUnits(state.exam.questions);
-  let picks = selectUnits(units, n, state.analysis, optWrong, optUnseen);
-  picks = ensureOneSeries(picks, units, n);
-  // Keep every case study / same-scenario series intact and consecutive.
-  picks = groupUnits(picks, units);
-  picks = trimToQuestionCount(picks, n);
+  let candidates = orderCandidates(units, state.analysis, optWrong, optUnseen);
+  candidates = preferOneSeries(candidates);
+  // Fills to exactly n questions; case studies / scenario series are kept whole
+  // and consecutive, and are skipped when they no longer fit the budget.
+  const picks = packUnits(candidates, n, units);
 
   // flatten
   const members = [];
