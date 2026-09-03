@@ -261,6 +261,7 @@ function buildUnits(questions) {
         groupNote: q.groupNote || "",
         groupOrder: q.groupOrder || 0,
         groupSize: q.groupSize || 0,
+        groupSections: q.groupSections || null,
       });
     }
   }
@@ -341,6 +342,74 @@ function preferOneSeries(candidates) {
   const [pick] = out.splice(seriesIdx, 1);
   out.unshift(pick);
   return out;
+}
+
+/* Human-readable name for a question type, e.g. "yesno" -> "Yes / no statements". */
+const TYPE_LABELS = {
+  single: "Single answer",
+  multi: "Multiple answers",
+  yesno: "Yes / no statements",
+  dropdown: "Drop-down",
+  image: "Exhibit",
+};
+function typeLabel(q) {
+  const base = TYPE_LABELS[q.type] || q.type || "question";
+  const parts = [];
+  if (q.groupKind === "case-study") parts.push("Case study");
+  parts.push(base);
+  if (q.subtype) parts.push(q.subtype);
+  return parts.join(" · ");
+}
+
+/* A case study is presented the way the real exam presents it: one tab per
+   section of the case, plus a Question tab holding the question itself. */
+function caseStudyShell(unit) {
+  const sections = unit.groupSections || [];
+  const examTitle = (state.exam && (state.exam.name || state.exam.title)) || "Case study";
+  const tabs = sections.map((s, i) =>
+    `<button type="button" class="cs-tab" role="tab" data-tab="${i}"
+             aria-selected="false" aria-controls="cs-panel-${i}">${escapeHtml(s.title)}</button>`).join("");
+  const panels = sections.map((s, i) =>
+    `<div class="cs-panel" id="cs-panel-${i}" role="tabpanel" data-panel="${i}" hidden>
+       ${renderRichText(s.body, "cs-body")}
+     </div>`).join("");
+
+  return `<div class="case-study" data-group="${escapeHtml(unit.groupId || "")}">
+      <div class="cs-head">
+        <h2 class="cs-title">${escapeHtml(examTitle)} — Case study</h2>
+        ${unit.groupSize ? `<span class="cs-pos">Question ${unit.groupOrder} of ${unit.groupSize}</span>` : ""}
+      </div>
+      <p class="cs-hint">Read the case in the section tabs, then open the
+        <strong>❓ Question</strong> tab to answer. Any tables, code or diagrams
+        appear inline with the question.</p>
+      <div class="cs-tabs" role="tablist">
+        ${tabs}
+        <button type="button" class="cs-tab is-question" role="tab" data-tab="question"
+                aria-selected="false" aria-controls="cs-panel-question">❓ Question</button>
+      </div>
+      <div class="cs-panels">
+        ${panels}
+        <div class="cs-panel" id="cs-panel-question" role="tabpanel" data-panel="question" hidden></div>
+      </div>
+    </div>`;
+}
+
+function wireCaseStudyTabs(root, unit) {
+  const tabs = $$(".cs-tab", root);
+  const panels = $$(".cs-panel", root);
+  const select = (key) => {
+    tabs.forEach(t => {
+      const on = t.dataset.tab === key;
+      t.classList.toggle("active", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    panels.forEach(p => { p.hidden = p.dataset.panel !== key; });
+    unit._csTab = key;  // survives navigating away from and back to this question
+  };
+  tabs.forEach(t => { t.onclick = () => select(t.dataset.tab); });
+  const first = tabs.length ? tabs[0].dataset.tab : "question";
+  const remembered = unit._csTab && tabs.some(t => t.dataset.tab === unit._csTab);
+  select(remembered ? unit._csTab : first);
 }
 
 function groupBanner(unit) {
@@ -585,7 +654,8 @@ function mountQuestion(host, q, idx) {
   div.className = "member";
   div.dataset.midx = idx;
 
-  let inner = `<div class="type-badge">${q.type}${q.subtype ? " · " + q.subtype : ""}</div>`;
+  let inner = `<div class="type-badge" data-type="${escapeHtml(q.type || "")}"`
+    + `${q.groupKind === "case-study" ? ' data-case="1"' : ""}>${escapeHtml(typeLabel(q))}</div>`;
   // Grouped questions render only their own text; the shared case-study /
   // scenario body is shown once in the group banner above.
   inner += renderRichText(q.groupStem || q.stem || "");
@@ -804,7 +874,9 @@ function renderQuiz() {
   const totalUnits = s.units.length;
 
   $("#progressBar").style.width = `${s.idx / totalUnits * 100}%`;
-  $("#qCounter").textContent = `Question ${s.idx + 1} of ${totalUnits}`;
+  const examName = state.exam && (state.exam.name || state.exam.title);
+  $("#qCounter").textContent = `Question ${s.idx + 1} of ${totalUnits}`
+    + (examName ? ` · ${examName}` : "");
   updateQuizTimer();
   const badge = $("#modeBadge");
   if (s.mode === "exam") badge.textContent = "Exam mode";
@@ -829,8 +901,16 @@ function renderQuiz() {
       mountQuestion(sub, m, unit._range[0] + k);
     });
   } else {
-    if (unit.groupId) host.insertAdjacentHTML("beforeend", groupBanner(unit));
-    mountQuestion(host, unit.members[0], unit._range[0]);
+    const sections = unit.groupSections || [];
+    if (unit.groupKind === "case-study" && sections.length) {
+      host.insertAdjacentHTML("beforeend", caseStudyShell(unit));
+      const shell = $(".case-study", host);
+      mountQuestion($('.cs-panel[data-panel="question"]', shell), unit.members[0], unit._range[0]);
+      wireCaseStudyTabs(shell, unit);
+    } else {
+      if (unit.groupId) host.insertAdjacentHTML("beforeend", groupBanner(unit));
+      mountQuestion(host, unit.members[0], unit._range[0]);
+    }
   }
 
   // nav wiring

@@ -64,6 +64,36 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 1,
       "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ],
       "groupStem": "You need to meet the development requirements for the FeedbackJson column.\nHow should you complete the Transact-SQL query? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -593,6 +623,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 1,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You need to create a solution that meets the development requirements for retrieving the patient lists.\nHow should you complete the Transact-SQL code? To answer, select the appropriate options\nin the answer area.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -966,6 +1030,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 2,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You plan to implement changes to sp_UpdateProcedureForPatient to meet the performance requirements.\nYou change the stored procedure to run all its code within a transaction.\nWhich transaction level should you use?"
     },
     {
@@ -996,6 +1094,36 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 2,
       "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ],
       "groupStem": "You need to create a table in the database to store the telemetry data.\nYou have the following Transact-SQL code.\n```sql\nCREATE TABLE dbo.VehicleTelemetry\n(\n    TelemetryId BIGINT IDENTITY(1,1) NOT NULL,\n    VehicleId NVARCHAR(50) NOT NULL,\n    TelemetryTimeUtc DATETIME2(3) NOT NULL,\n    BatteryPercent TINYINT NULL,\n    SpeedKmh SMALLINT NULL,\n    LocationJson JSON NULL,\n    ErrorCodesJson JSON NULL,\n    RawPayload NVARCHAR(MAX) NULL,\n    SysStartTime DATETIME2(7) GENERATED ALWAYS AS ROW START NOT NULL,\n    SysEndTime DATETIME2(7) GENERATED ALWAYS AS ROW END NOT NULL,\n    PERIOD FOR SYSTEM_TIME (SysStartTime, SysEndTime),\n    CONSTRAINT PK_VehicleTelemetry PRIMARY KEY CLUSTERED (TelemetryId)\n)\nWITH\n(\n    SYSTEM_VERSIONING = ON\n    (\n        HISTORY_TABLE = dbo.VehicleTelemetryHistory\n    )\n);\nGO\nCREATE INDEX IX_VehicleTelemetry_Time ON dbo.VehicleTelemetry (TelemetryTimeUtc);\nCREATE JSON INDEX JI_VehicleTelemetry_Location ON dbo.VehicleTelemetry (LocationJson) FOR\n(\n    '$.location.latitude', '$.location.longitude',\n    '$.location.accuracy'\n);\n```\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -1026,6 +1154,36 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 3,
       "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ],
       "groupStem": "You are creating a table that will store customer profiles.\nYou have the following Transact-SQL code.\n```sql\nCREATE TABLE dbo.CustomerProfiles\n(\n    CustomerId      BIGINT IDENTITY(1,1) PRIMARY KEY,\n    FullName        NVARCHAR(200) MASKED WITH (FUNCTION = 'partial(1,\"xxxx\",1)'),\n    EmailAddress    NVARCHAR(200) MASKED WITH (FUNCTION = 'email()'),\n    PhoneNumber     NVARCHAR(50)  MASKED WITH (FUNCTION = 'default()'),\n    RegionCode      NVARCHAR(10) NOT NULL\n);\nGO\nCREATE FUNCTION dbo.fn_FilterByRegion(@RegionCode NVARCHAR(10))\nRETURNS TABLE\nAS\nRETURN\n(\n    SELECT 1\n    FROM dbo.UserRegionAccess ura\n    WHERE ura.UserPrincipalName = SUSER_SNAME()\n      AND ura.RegionCode = @RegionCode\n);\nGO\nCREATE SECURITY POLICY CustomerRegionPolicy\nADD FILTER PREDICATE dbo.fn_FilterByRegion(RegionCode)\nON dbo.CustomerProfiles\nWITH (STATE = ON);\nGO\n```\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -1070,6 +1228,36 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 4,
       "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ],
       "groupStem": "You need to meet the database performance requirements for maintenance data.\nHow should you complete the Transact-SQL code? To answer, drag the appropriate values to the correct targets.\nEach value may be used once, more than once, or not at all. You may need to drag the split bar between panes or\nscroll to view content.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -1108,6 +1296,36 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 5,
       "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ],
       "groupStem": "You need to recommend a solution to resolve the slow dashboard query issue.\nWhat should you recommend?"
     },
     {
@@ -1151,6 +1369,36 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 6,
       "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ],
       "groupStem": "You need to recommend a solution that will resolve the ingestion pipeline failure issues.\nWhich two actions should you recommend? Each correct answer presents part of the solution.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -1890,6 +2138,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 3,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You are evaluating the DAB configuration.\nYou are evaluating the following Data API builder (DAB) configuration.\n```json\n\"entities\": {\n  \"Procedures\": {\n    \"source\": \"dbo.Procedures\",\n    \"rest\": true,\n    \"graphql\": true,\n    \"permissions\": [\n      { \"role\": \"anonymous\", \"actions\": [ \"read\" ] }\n    ]\n  },\n  \"Transactions\": {\n    \"source\": \"dbo.Transactions\",\n    \"rest\": true,\n    \"graphql\": true,\n    \"permissions\": [\n      { \"role\": \"authenticated\", \"actions\": [ \"read\", \"create\" ] }\n    ]\n  },\n  \"UpdateProcedurePatient\": {\n    \"source\": \"dbo.sp_UpdateProcedurePatient\",\n    \"rest\": { \"enabled\": true, \"method\": \"post\", \"path\": \"/procedurepatient\" },\n    \"graphql\": false,\n    \"permissions\": [\n      { \"role\": \"authenticated\", \"actions\": [ \"execute\" ] }\n    ]\n  }\n}\n```\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -1944,6 +2226,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 4,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You need to create a solution that meets the development requirements for retrieving the patient transaction data.\nThe solution must ensure that database developers use the resulting data to join to other tables.\nHow should you complete the Transact-SQL code? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -1982,6 +2298,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 5,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You need to recommend a solution for the TransactionProcessing application that meets the security\nrequirements.\nWhat should you include in the recommendation?"
     },
     {
@@ -2025,6 +2375,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 6,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You create an SDK-style SQL database project in Microsoft Visual Studio Code named Database.sqlproj and add\nthe project to a GitHub repository.\nYou need to configure a GitHub Actions workflow to support the planned changes for DB1.\nHow should you complete the workflow? To answer, select the appropriate options in the\nanswer area.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -2573,6 +2957,36 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 7,
       "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ],
       "groupStem": "You need to generate embeddings to resolve the issues identified by the analysts.\nWhich column should you use?"
     },
     {
@@ -2611,6 +3025,36 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 8,
       "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ],
       "groupStem": "You need to enable similarity search to provide the analysts with the ability to retrieve the most relevant health\nsummary reports. The solution must minimize latency.\nWhat should you include in the solution?"
     },
     {
@@ -2649,6 +3093,36 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 9,
       "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ],
       "groupStem": "You need to recommend a solution for the development team to retrieve the live metadata. The solution must meet\nthe development requirements.\nWhat should you include in the recommendation?"
     },
     {
@@ -3097,6 +3571,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 7,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You need to use the UsefulPrompts table as defined in the AI requirements.\nWhich stored procedure should you use?"
     },
     {
@@ -3135,6 +3643,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 8,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You implement ProcedureDocuments to support the planned changes.\nWhen users consume data through the Retrieval Augmented Generation (RAG) pattern, they experience data\nretrieval delays.\nYou need to improve the data retrieval performance and reduce the number of tokens per retrieval.\nWhat should you implement?"
     },
     {
@@ -3666,7 +4208,37 @@
       "groupScenario": "Case Study -\nThis is a case study. Case studies are not timed separately. You can use as much exam time as you would like to\ncomplete each case. However, there may be additional case studies and sections on this exam. You must manage\nyour time to ensure that you are able to complete all questions included on this exam in the time provided.\nTo answer the questions included in a case study, you will need to reference information that is provided in the\ncase study. Case studies might contain exhibits and other resources that provide more information about the\nscenario that is described in the case study. Each question is independent of the other questions in this case study.\nAt the end of this case study, a review screen will appear. This screen allows you to review your answers and to\nmake changes before you move to the next section of the exam. After you begin a new section, you cannot return\nto this section.\nTo start the case study -\nTo display the first question in this case study, click the Next button. Use the buttons in the left pane to explore\nthe content of the case study before you answer the questions. Clicking these buttons displays information such\nas business requirements, existing environment and problem statements. If the case study has an All Information\ntab, note that the information displayed is identical to the information displayed on the subsequent tabs. When you\nare ready to answer a question, click the Question button to return to the question.\nExisting Environment -\nAzure Environment -\nContoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission.\nProblem Statements -\nContoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details.\nRequirements -\nPlanned Changes -\nContoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports.\nSecurity Requirements -\nContoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets.\nDatabase Performance and Requirements\nContoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates.\nAI Search, Embeddings, and Vector Indexing\nContoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -\nDevelopment Requirements -\nThe development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first.",
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 10,
-      "groupSize": 10
+      "groupSize": 10,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Contoso wants to modernize Fleet Intelligence Platform to support AI-powered semantic search over incident\nreports."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Contoso identifies the following security requirements:\nRestrict the support staff from viewing Personally Identifiable Information (PII) data, which is full email addresses\nand phone numbers.\nEnforce row-level filtering so that analysts see only incidents for the fleets to which they are assigned. The\nanalysts can be assigned to multiple fleets."
+        },
+        {
+          "title": "Database Performance and Requirements",
+          "body": "Contoso identifies the following telemetry requirements:\nTelemetry data must be stored in a partitioned table.\nTelemetry data must provide predictable performance for ingestion and retention operations. latitude, longitude,\nand accuracy JSON properties must be filtered by using an index seek.\nContoso identifies the following maintenance data requirements:\nEnsure that any changes to a row in the MaintenanceEvents table updates the corresponding value in the\nLastModifiedUtc column to the time of the change.\nAvoid recursive updates."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Contoso plans to implement semantic search over incident data to meet the following requirements:\nEmbeddings must be stored in dedicated Azure SQL Database tables.\nEmbeddings must be generated from rich natural language fields.\nChunking must preserve semantic coherence.\nHybrid search must combine the following:\nVector similarity -\nKeyword filtering or boosting -"
+        },
+        {
+          "title": "Development Requirements",
+          "body": "The development team at Contoso will use Microsoft Visual Studio Code and GitHub Copilot and will retrieve live\nmetadata from the databases.\nContoso identifies the following requirements for querying data in the FeedbackJson column of the\nCustomerFeedback table:\nExtract the customer feedback text from the JSON document.\nFilter rows where the JSON text contains a keyword.\nCalculate a fuzzy similarity score between the feedback text and a known issue description.\nOrder the results by similarity score, with the highest score first."
+        }
+      ]
     },
     {
       "id": 108,
@@ -4540,6 +5112,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 9,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You create an SDK-style SQL database project in Microsoft Visual Studio Code named Database.sqlproj\nand add the project to a GitHub repository.\nYou need to configure a GitHub Actions workflow to support the planned changes for DB1.\nHow should you complete the workflow? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -4584,6 +5190,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 10,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You need to create a solution that meets the development requirements for retrieving the patient lists.\nHow should you complete the Transact-SQL code? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -4622,6 +5262,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 11,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You need to recommend a solution for the TransactionProcessing application that meets the security\nrequirements. What should you include in the recommendation?"
     },
     {
@@ -4660,6 +5334,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 12,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You plan to implement changes to sp_UpdateProcedureForPatient to meet the performance requirements.\nYou change the stored procedure to run all its code within a transaction.\nWhich transaction level should you use?"
     },
     {
@@ -4689,6 +5397,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 13,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You need to create a solution that meets the development requirements for retrieving the patient transaction data.\nThe solution must ensure that database developers use the resulting data to join to other tables.\nHow should you complete the Transact-SQL code? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -4742,6 +5484,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 14,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You need to use the UsefulPrompts table as defined in the AI requirements.\nWhich stored procedure should you use?\nA. sp_OACreate\nB. sp_addendpoint\nC. xp_cmdshell\nD. sp_invoke_external_rest_endpoint"
     },
     {
@@ -4786,6 +5562,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 15,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You are evaluating the DAB configuration.\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point."
     },
     {
@@ -4816,6 +5626,40 @@
       "groupNote": "This is a case study. All of the questions below refer to the same scenario. Review the scenario, then answer each question.",
       "groupOrder": 16,
       "groupSize": 16,
+      "groupSections": [
+        {
+          "title": "Azure Environment",
+          "body": "Fabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n•Patients\n•Employees\n•Procedures\n•Transactions\n•UsefulPrompts\n•ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1."
+        },
+        {
+          "title": "Problem Statements",
+          "body": "Users report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent."
+        },
+        {
+          "title": "Planned Changes",
+          "body": "Fabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged. Deployments must use the Release\nconfiguration."
+        },
+        {
+          "title": "Security Requirements",
+          "body": "Fabrikam identifies the following security requirements:\n•The TransactionProcessing application must use a passwordless connection to DB1.\n•The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n•Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the employee\ndata."
+        },
+        {
+          "title": "Database Performance Requirements",
+          "body": "Records accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs."
+        },
+        {
+          "title": "AI Search, Embeddings, and Vector Indexing",
+          "body": "Fabrikam identifies the following AI-related requirements:\n•Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n•Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n•The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAI endpoint."
+        },
+        {
+          "title": "Development Requirements",
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+        },
+        {
+          "title": "DAB",
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+        }
+      ],
       "groupStem": "You implement ProcedureDocuments to support the planned changes.\nWhen users consume data through the Retrieval Augmented Generation (RAG) pattern, they experience data\nretrieval delays.\nYou need to improve the data retrieval performance and reduce the number of tokens per retrieval.\nWhat should you implement?\nA. chunking\nB. embeddings\nC. a small language model (SLM)\nD. JSON content\n\nYou are evaluating the following Data API builder (DAB) configuration.\n```json\n\"entities\": {\n  \"Procedures\": {\n    \"source\": \"dbo.Procedures\",\n    \"rest\": true,\n    \"graphql\": true,\n    \"permissions\": [\n      { \"role\": \"anonymous\", \"actions\": [ \"read\" ] }\n    ]\n  },\n  \"Transactions\": {\n    \"source\": \"dbo.Transactions\",\n    \"rest\": true,\n    \"graphql\": true,\n    \"permissions\": [\n      { \"role\": \"authenticated\", \"actions\": [ \"read\", \"create\" ] }\n    ]\n  },\n  \"UpdateProcedurePatient\": {\n    \"source\": \"dbo.sp_UpdateProcedurePatient\",\n    \"rest\": { \"enabled\": true, \"method\": \"post\", \"path\": \"/procedurepatient\" },\n    \"graphql\": false,\n    \"permissions\": [\n      { \"role\": \"authenticated\", \"actions\": [ \"execute\" ] }\n    ]\n  }\n}\n```"
     },
     {

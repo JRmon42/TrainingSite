@@ -36,6 +36,99 @@ SOLUTION_SPLIT = re.compile(r"\bSolution\s*:", re.I)
 SIMILARITY_THRESHOLD = 0.30
 SHINGLE_SIZE = 6
 
+# ---------------------------------------------------------------- sections --
+# A case study is presented in the real exam as a set of tabs. The scenario text
+# carries the same headings, so it can be split back into those tabs.
+
+# Headings that do not carry the usual trailing " -" marker in the OCR output.
+EXTRA_HEADINGS = [
+    r"Database Performance(?: and)? Requirements",
+    r"AI Search, Embeddings,? and Vector Indexing",
+    r"Existing Environment",
+    r"Development Requirements",
+    r"Security Requirements",
+    r"Problem Statements",
+    r"Planned Changes",
+]
+EXTRA_HEADING_RE = re.compile(r"^(?:%s)$" % "|".join(EXTRA_HEADINGS))
+
+# Generic exam instructions that are the same for every case study; they are
+# replaced by the app's own hint text rather than shown as a tab.
+BOILERPLATE_HEADINGS = re.compile(
+    r"^(?:Case Study|To start the case study)$", re.I)
+
+# Headings that only introduce the sub-headings that follow and have no body.
+PARENT_HEADINGS = re.compile(r"^(?:Existing Environment|Requirements)$", re.I)
+
+# Words a heading may leave in lower case.
+HEADING_STOPWORDS = {"and", "or", "of", "the", "for", "a", "an", "to", "in",
+                     "on", "with", "by", "at", "from"}
+
+
+def is_title_case(text):
+    """True when every significant word starts with a capital (or is an acronym).
+
+    Used to tell a real section heading ("Development Requirements") from an
+    OCR'd bullet that happens to carry the same trailing dash ("Vector search").
+    """
+    words = re.findall(r"[A-Za-z][A-Za-z0-9'/&.]*", text)
+    if not words:
+        return False
+    return all(w.lower() in HEADING_STOPWORDS or w[0].isupper() for w in words)
+
+
+def split_sections(scenario):
+    """Split a case-study scenario into ``[{title, body}, ...]`` tab sections.
+
+    A line is a heading when it ends with the OCR's trailing " -" marker or
+    matches one of the known headings. Purely structural headings that have no
+    body of their own ("Existing Environment", "Requirements") are dropped, as
+    is the generic "This is a case study ..." preamble.
+    """
+    lines = []
+    for raw in (scenario or "").split("\n"):
+        line = raw.rstrip()
+        # OCR sometimes puts the trailing dash of a heading on its own line.
+        if line.strip() == "-" and lines:
+            lines[-1] = lines[-1].rstrip() + " -"
+        else:
+            lines.append(line)
+
+    def heading_of(line):
+        s = line.strip()
+        if not s or len(s) > 70:
+            return None
+        if s.endswith(" -"):
+            s = s[:-2].strip()
+            # OCR renders bulleted list items with the same trailing dash as a
+            # heading ("Vector search -"), so require heading-style casing.
+            if not s or not is_title_case(s):
+                return None
+        elif not EXTRA_HEADING_RE.match(s):
+            return None
+        return s or None
+
+    sections, cur = [], None
+    for line in lines:
+        h = heading_of(line)
+        if h:
+            cur = {"title": h, "body": []}
+            sections.append(cur)
+        elif cur is not None and line.strip():
+            cur["body"].append(line)
+
+    out = []
+    for s in sections:
+        body = "\n".join(s["body"]).strip()
+        if BOILERPLATE_HEADINGS.match(s["title"]):
+            continue
+        if not body and PARENT_HEADINGS.match(s["title"]):
+            continue
+        if not body:
+            continue
+        out.append({"title": s["title"], "body": body})
+    return out
+
 
 def norm(text):
     return re.sub(r"\s+", " ", text or "").strip()
@@ -207,7 +300,8 @@ def main(path):
     # Clear any stale annotation so the script is idempotent.
     for q in questions:
         for key in ("groupId", "groupKind", "groupTitle", "groupScenario",
-                    "groupNote", "groupOrder", "groupSize", "groupStem"):
+                    "groupNote", "groupOrder", "groupSize", "groupStem",
+                    "groupSections"):
             q.pop(key, None)
 
     summary = []
@@ -225,6 +319,7 @@ def main(path):
                     shared = max((m["scenario"] for m in members), key=len)
             gid = f"{kind}-{i}"
             title = title_for(kind, shared, i)
+            sections = split_sections(shared) if kind == "case-study" else []
             for order, m in enumerate(members, start=1):
                 q = m["q"]
                 q["groupId"] = gid
@@ -234,20 +329,25 @@ def main(path):
                 q["groupNote"] = CASE_NOTE if kind == "case-study" else SERIES_NOTE
                 q["groupOrder"] = order
                 q["groupSize"] = len(members)
+                if sections:
+                    q["groupSections"] = sections
                 if m.get("question_text"):
                     q["groupStem"] = m["question_text"]
             summary.append((gid, title, [m["q"]["id"] for m in members],
-                            sum(1 for m in members if m.get("question_text"))))
+                            sum(1 for m in members if m.get("question_text")),
+                            [s["title"] for s in sections]))
 
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(exam, fh, ensure_ascii=False, indent=2)
         fh.write("\n")
 
     print(f"Annotated {path}")
-    for gid, title, ids, split in summary:
+    for gid, title, ids, split, sects in summary:
         print(f"  {gid:<20} {len(ids):>2} questions ({split} de-duplicated)  {title}")
         print(f"    {ids}")
-    grouped = sum(len(ids) for _, _, ids, _ in summary)
+        if sects:
+            print(f"    tabs: {' | '.join(sects)} | Question")
+    grouped = sum(len(ids) for _, _, ids, _, _ in summary)
     print(f"  total grouped: {grouped} / {len(questions)}")
 
 
