@@ -41,6 +41,19 @@ def norm(text):
     return re.sub(r"\s+", " ", text or "").strip()
 
 
+def soft_norm(text):
+    """Normalize whitespace but keep line breaks.
+
+    ``norm`` flattens everything onto one line, which is right for similarity
+    matching but destroys the indentation of fenced code blocks in a stem. The
+    per-question ``groupStem`` is sliced out of this version instead so that
+    Transact-SQL / JSON listings survive de-duplication intact.
+    """
+    text = (text or "").replace("\r\n", "\n").replace("\r", "\n")
+    text = re.sub(r"[^\S\n]+\n", "\n", text)
+    return re.sub(r"\n{3,}", "\n\n", text).strip()
+
+
 def shingles(text, k=SHINGLE_SIZE):
     words = re.findall(r"[a-z0-9]+", text.lower())
     if len(words) < k:
@@ -189,7 +202,7 @@ def main(path):
             continue
         buckets[kind].append(
             {"q": q, "scenario": scenario, "solution": solution,
-             "stem": norm(q.get("stem"))})
+             "stem": soft_norm(q.get("stem"))})
 
     # Clear any stale annotation so the script is idempotent.
     for q in questions:

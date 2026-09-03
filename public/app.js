@@ -20,6 +20,31 @@ function escapeHtml(s) {
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
+// Renders question text where ```lang ... ``` fenced blocks become monospaced
+// code blocks, so SQL/JSON keeps its indentation instead of being reflowed by
+// the proportional body font.
+function renderRichText(s, cls) {
+  const text = String(s == null ? "" : s);
+  const klass = cls || "stem";
+  if (text.indexOf("```") === -1) return `<div class="${klass}">${escapeHtml(text)}</div>`;
+
+  let out = "";
+  const parts = text.split(/```/);
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 2 === 0) {
+      const prose = parts[i].replace(/^\n+|\n+$/g, "");
+      if (prose) out += `<div class="${klass}">${escapeHtml(prose)}</div>`;
+    } else {
+      // An unterminated fence would leave a trailing odd part: treat it as code anyway.
+      const body = parts[i].replace(/^[A-Za-z0-9_+-]*\n/, "").replace(/\s+$/, "");
+      const lang = (parts[i].match(/^([A-Za-z0-9_+-]+)\n/) || [, ""])[1];
+      out += `<pre class="code-block"${lang ? ` data-lang="${escapeHtml(lang)}"` : ""}>`
+           + `<code>${escapeHtml(body)}</code></pre>`;
+    }
+  }
+  return out;
+}
+
 // Escape then turn bare URLs into links.
 function linkify(text) {
   const parts = String(text == null ? "" : text).split(/(https?:\/\/[^\s<>"')]+)/g);
@@ -563,7 +588,7 @@ function mountQuestion(host, q, idx) {
   let inner = `<div class="type-badge">${q.type}${q.subtype ? " · " + q.subtype : ""}</div>`;
   // Grouped questions render only their own text; the shared case-study /
   // scenario body is shown once in the group banner above.
-  inner += `<div class="stem">${escapeHtml(q.groupStem || q.stem || "")}</div>`;
+  inner += renderRichText(q.groupStem || q.stem || "");
   inner += stemExtras(q);
   inner += `<div class="inputs"></div>`;
   div.innerHTML = inner;
@@ -981,7 +1006,7 @@ function renderResults() {
     const cls2 = e === p ? "full" : e === 0 ? "zero" : "partial";
     const badge = e === p ? "✓" : `${e}/${p}`;
     const snippet = (q) => {
-      const t = q.groupStem || q.stem || "";
+      const t = (q.groupStem || q.stem || "").replace(/```[A-Za-z0-9_+-]*\n?/g, "");
       return escapeHtml(t.slice(0, 100)) + (t.length > 100 ? "…" : "");
     };
     const m0 = unit.members[0];
@@ -1026,7 +1051,7 @@ function renderReviewQuestion(q, idx) {
     ? `<div class="review-group">${escapeHtml(q.groupTitle || "")} · Question ${q.groupOrder} of ${q.groupSize}</div>`
     : "";
   let body = groupTag
-    + `<div class="stem">${escapeHtml(q.groupStem || q.stem || "")}</div>` + stemExtras(q);
+    + renderRichText(q.groupStem || q.stem || "") + stemExtras(q);
 
   if (q.type === "single" || q.type === "multi") {
     const correct = new Set(q.type === "single" ? [effSingle(q, idx)] : effMulti(q, idx));

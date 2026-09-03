@@ -102,6 +102,39 @@ button.danger:hover { border-color: var(--red); }
 .sub-card { background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin: 12px 0; }
 .sub-card h4 { margin: 0 0 8px; font-size: .95rem; }
 
+/* fenced code blocks inside a question stem */
+.code-block {
+  margin: 12px 0;
+  padding: 14px 16px;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent, #4493f8);
+  border-radius: 8px;
+  overflow-x: auto;
+  position: relative;
+}
+.code-block code {
+  display: block;
+  font-family: "Cascadia Code", "Fira Code", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: .86rem;
+  line-height: 1.5;
+  white-space: pre;
+  tab-size: 4;
+  color: #d5dbe3;
+}
+.code-block[data-lang]::after {
+  content: attr(data-lang);
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-size: .66rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  pointer-events: none;
+}
+@media (max-width: 640px) { .code-block code { font-size: .76rem; } }
+
 /* stem extras */
 .stem-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: .88rem; }
 .stem-table caption { text-align: left; color: var(--muted); font-size: .8rem; margin-bottom: 4px; }
