@@ -23,17 +23,41 @@ function escapeHtml(s) {
 // Renders question text where ```lang ... ``` fenced blocks become monospaced
 // code blocks, so SQL/JSON keeps its indentation instead of being reflowed by
 // the proportional body font.
+const IMAGE_TOKEN = /^\s*\[\[image:([^\]]+)\]\]\s*$/;
+
+// Prose may carry [[image:FILE]] tokens standing in for a figure that only
+// exists as a picture in the source PDF (a table listing, a JSON sample, ...).
+function renderProse(text, klass) {
+  let out = "";
+  let buffer = [];
+  const flush = () => {
+    const prose = buffer.join("\n").replace(/^\n+|\n+$/g, "");
+    buffer = [];
+    if (prose) out += `<div class="${klass}">${escapeHtml(prose)}</div>`;
+  };
+  for (const line of String(text).split("\n")) {
+    const m = line.match(IMAGE_TOKEN);
+    if (m) {
+      flush();
+      out += `<img class="exhibit" src="/images/${encodeURIComponent(m[1].trim())}" alt="Exhibit">`;
+    } else {
+      buffer.push(line);
+    }
+  }
+  flush();
+  return out;
+}
+
 function renderRichText(s, cls) {
   const text = String(s == null ? "" : s);
   const klass = cls || "stem";
-  if (text.indexOf("```") === -1) return `<div class="${klass}">${escapeHtml(text)}</div>`;
+  if (text.indexOf("```") === -1) return renderProse(text, klass);
 
   let out = "";
   const parts = text.split(/```/);
   for (let i = 0; i < parts.length; i++) {
     if (i % 2 === 0) {
-      const prose = parts[i].replace(/^\n+|\n+$/g, "");
-      if (prose) out += `<div class="${klass}">${escapeHtml(prose)}</div>`;
+      out += renderProse(parts[i], klass);
     } else {
       // An unterminated fence would leave a trailing odd part: treat it as code anyway.
       const body = parts[i].replace(/^[A-Za-z0-9_+-]*\n/, "").replace(/\s+$/, "");
@@ -552,10 +576,17 @@ function stemExtras(q) {
     const tables = Array.isArray(q.table) ? q.table : [q.table];
     html += tables.map(renderTable).join("");
   }
-  for (const img of (q.exhibitImages || [])) {
-    html += `<img class="exhibit" src="/images/${encodeURIComponent(img)}" alt="exhibit">`;
+  const images = q.exhibitImages || [];
+  if (!images.length) return html;
+  const pages = images
+    .map((img) => `<img class="exhibit" src="/images/${encodeURIComponent(img)}" alt="exhibit">`)
+    .join("");
+  // A case study already shows its scenario and figures in the section tabs, so
+  // the full-page scans of those same pages are collapsed to avoid repeating it.
+  if (q.groupKind === "case-study") {
+    return html + `<details class="src-pages"><summary>Source pages from the PDF (${images.length})</summary>${pages}</details>`;
   }
-  return html;
+  return html + pages;
 }
 function explanationBlock(q) {
   let html = "";
@@ -1086,7 +1117,9 @@ function renderResults() {
     const cls2 = e === p ? "full" : e === 0 ? "zero" : "partial";
     const badge = e === p ? "✓" : `${e}/${p}`;
     const snippet = (q) => {
-      const t = (q.groupStem || q.stem || "").replace(/```[A-Za-z0-9_+-]*\n?/g, "");
+      const t = (q.groupStem || q.stem || "")
+        .replace(/```[A-Za-z0-9_+-]*\n?/g, "")
+        .replace(/\[\[image:[^\]]+\]\]/g, "");
       return escapeHtml(t.slice(0, 100)) + (t.length > 100 ? "…" : "");
     };
     const m0 = unit.members[0];

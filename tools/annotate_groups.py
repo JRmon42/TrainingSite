@@ -18,6 +18,7 @@ Usage:  python3 tools/annotate_groups.py data/exams/dp-800.json
 """
 
 import json
+import os
 import re
 import sys
 
@@ -128,6 +129,38 @@ def split_sections(scenario):
             continue
         out.append({"title": s["title"], "body": body})
     return out
+
+
+def load_exhibits(exam_path):
+    """Load the ``<exam>.exhibits.json`` sidecar produced by extract_case_exhibits.
+
+    The scenario refers to figures ("The database contains the following
+    tables.") that exist only as images in the PDF. The sidecar maps the
+    introducing sentence to the extracted file names; keying on the sentence
+    instead of a section index keeps the two tools independent of each other.
+    """
+    path = os.path.splitext(exam_path)[0] + ".exhibits.json"
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh)
+    except FileNotFoundError:
+        return {}
+
+
+def inject_exhibits(body, exhibits, placed):
+    """Insert ``[[image:FILE]]`` tokens after the lines that introduce a figure."""
+    if not exhibits:
+        return body
+    out, running = [], ""
+    for line in body.split("\n"):
+        out.append(line)
+        running = norm(running + " " + line)
+        for anchor, files in exhibits.items():
+            if anchor in placed or anchor not in running:
+                continue
+            placed.add(anchor)
+            out.extend(f"[[image:{name}]]" for name in files)
+    return "\n".join(out)
 
 
 def norm(text):
@@ -286,6 +319,7 @@ SERIES_NOTE = ("Each question in this series presents a different solution for t
 def main(path):
     with open(path, encoding="utf-8") as fh:
         exam = json.load(fh)
+    exhibits = load_exhibits(path)
 
     questions = exam["questions"]
     buckets = {"case-study": [], "scenario-series": []}
@@ -320,6 +354,9 @@ def main(path):
             gid = f"{kind}-{i}"
             title = title_for(kind, shared, i)
             sections = split_sections(shared) if kind == "case-study" else []
+            placed = set()
+            for s in sections:
+                s["body"] = inject_exhibits(s["body"], exhibits, placed)
             for order, m in enumerate(members, start=1):
                 q = m["q"]
                 q["groupId"] = gid
@@ -335,19 +372,21 @@ def main(path):
                     q["groupStem"] = m["question_text"]
             summary.append((gid, title, [m["q"]["id"] for m in members],
                             sum(1 for m in members if m.get("question_text")),
-                            [s["title"] for s in sections]))
+                            [s["title"] for s in sections], len(placed)))
 
     with open(path, "w", encoding="utf-8") as fh:
         json.dump(exam, fh, ensure_ascii=False, indent=2)
         fh.write("\n")
 
     print(f"Annotated {path}")
-    for gid, title, ids, split, sects in summary:
+    for gid, title, ids, split, sects, figs in summary:
         print(f"  {gid:<20} {len(ids):>2} questions ({split} de-duplicated)  {title}")
         print(f"    {ids}")
         if sects:
             print(f"    tabs: {' | '.join(sects)} | Question")
-    grouped = sum(len(ids) for _, _, ids, _, _ in summary)
+        if figs:
+            print(f"    exhibits: {figs}")
+    grouped = sum(len(ids) for _, _, ids, _, _, _ in summary)
     print(f"  total grouped: {grouped} / {len(questions)}")
 
 

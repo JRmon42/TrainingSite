@@ -67,11 +67,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -650,11 +650,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You need to create a solution that meets the development requirements for retrieving the patient lists.\nHow should you complete the Transact-SQL code? To answer, select the appropriate options\nin the answer area.\nNOTE: Each correct selection is worth one point."
@@ -1057,11 +1057,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You plan to implement changes to sp_UpdateProcedureForPatient to meet the performance requirements.\nYou change the stored procedure to run all its code within a transaction.\nWhich transaction level should you use?"
@@ -1097,11 +1097,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -1157,11 +1157,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -1231,11 +1231,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -1299,11 +1299,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -1372,11 +1372,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -2165,11 +2165,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You are evaluating the DAB configuration.\nYou are evaluating the following Data API builder (DAB) configuration.\n```json\n\"entities\": {\n  \"Procedures\": {\n    \"source\": \"dbo.Procedures\",\n    \"rest\": true,\n    \"graphql\": true,\n    \"permissions\": [\n      { \"role\": \"anonymous\", \"actions\": [ \"read\" ] }\n    ]\n  },\n  \"Transactions\": {\n    \"source\": \"dbo.Transactions\",\n    \"rest\": true,\n    \"graphql\": true,\n    \"permissions\": [\n      { \"role\": \"authenticated\", \"actions\": [ \"read\", \"create\" ] }\n    ]\n  },\n  \"UpdateProcedurePatient\": {\n    \"source\": \"dbo.sp_UpdateProcedurePatient\",\n    \"rest\": { \"enabled\": true, \"method\": \"post\", \"path\": \"/procedurepatient\" },\n    \"graphql\": false,\n    \"permissions\": [\n      { \"role\": \"authenticated\", \"actions\": [ \"execute\" ] }\n    ]\n  }\n}\n```\n\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point."
@@ -2253,11 +2253,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You need to create a solution that meets the development requirements for retrieving the patient transaction data.\nThe solution must ensure that database developers use the resulting data to join to other tables.\nHow should you complete the Transact-SQL code? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point."
@@ -2325,11 +2325,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You need to recommend a solution for the TransactionProcessing application that meets the security\nrequirements.\nWhat should you include in the recommendation?"
@@ -2402,11 +2402,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You create an SDK-style SQL database project in Microsoft Visual Studio Code named Database.sqlproj and add\nthe project to a GitHub repository.\nYou need to configure a GitHub Actions workflow to support the planned changes for DB1.\nHow should you complete the workflow? To answer, select the appropriate options in the\nanswer area.\nNOTE: Each correct selection is worth one point."
@@ -2960,11 +2960,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -3028,11 +3028,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -3096,11 +3096,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -3598,11 +3598,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You need to use the UsefulPrompts table as defined in the AI requirements.\nWhich stored procedure should you use?"
@@ -3670,11 +3670,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You implement ProcedureDocuments to support the planned changes.\nWhen users consume data through the Retrieval Augmented Generation (RAG) pattern, they experience data\nretrieval delays.\nYou need to improve the data retrieval performance and reduce the number of tokens per retrieval.\nWhat should you implement?"
@@ -4212,11 +4212,11 @@
       "groupSections": [
         {
           "title": "Azure Environment",
-          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\nThe support staff at Contoso never has the UNMASK permission."
+          "body": "Contoso has an Azure subscription in North Europe that contains the corporate infrastructure. The current\ninfrastructure contains a Microsoft SQL Server 2017 database. The database contains the following tables.\n[[image:dp-800_case-study-1_ex1.png]]\nThe FeedbackJson column has a full-text index and stores JSON documents in the following format.\n[[image:dp-800_case-study-1_ex2.png]]\nThe support staff at Contoso never has the UNMASK permission."
         },
         {
           "title": "Problem Statements",
-          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
+          "body": "Contoso is deploying a new Azure SQL database that will become the authoritative data store for the following:\nAI workloads -\nVector search -\nModernized API access -\nRetrieval Augmented Generation (RAG) pipelines\nSometimes the ingestion pipeline fails due to malformed JSON and duplicate payloads.\nThe engineers at Contoso report that the following dashboard query runs slowly.\n[[image:dp-800_case-study-1_ex3.png]]\nYou review the execution plan and discover that the plan shows a clustered index scan.\nVehicleIncidentReports often contains details about the weather, traffic conditions, and location. Analysts report\nthat it is difficult to find similar incidents based on these details."
         },
         {
           "title": "Planned Changes",
@@ -5139,11 +5139,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You create an SDK-style SQL database project in Microsoft Visual Studio Code named Database.sqlproj\nand add the project to a GitHub repository.\nYou need to configure a GitHub Actions workflow to support the planned changes for DB1.\nHow should you complete the workflow? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point."
@@ -5217,11 +5217,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You need to create a solution that meets the development requirements for retrieving the patient lists.\nHow should you complete the Transact-SQL code? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point."
@@ -5289,11 +5289,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You need to recommend a solution for the TransactionProcessing application that meets the security\nrequirements. What should you include in the recommendation?"
@@ -5361,11 +5361,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You plan to implement changes to sp_UpdateProcedureForPatient to meet the performance requirements.\nYou change the stored procedure to run all its code within a transaction.\nWhich transaction level should you use?"
@@ -5424,11 +5424,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You need to create a solution that meets the development requirements for retrieving the patient transaction data.\nThe solution must ensure that database developers use the resulting data to join to other tables.\nHow should you complete the Transact-SQL code? To answer, select the appropriate options in the answer area.\nNOTE: Each correct selection is worth one point."
@@ -5511,11 +5511,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You need to use the UsefulPrompts table as defined in the AI requirements.\nWhich stored procedure should you use?\nA. sp_OACreate\nB. sp_addendpoint\nC. xp_cmdshell\nD. sp_invoke_external_rest_endpoint"
@@ -5589,11 +5589,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You are evaluating the DAB configuration.\nFor each of the following statements, select Yes if the statement is true. Otherwise, select No.\nNOTE: Each correct selection is worth one point."
@@ -5653,11 +5653,11 @@
         },
         {
           "title": "Development Requirements",
-          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure."
+          "body": "Fabrikam identifies the following development requirements:\n•Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n•Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\noRead data from the procedures table without authentication.\noRead and insert data into the Transactions table once authenticated.\noExecute the sp_UpdateProcedurePatient stored procedure.\n•Provide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\n•Information for each medical procedure will be stored in a table. The table will be used with a large language\nmodel (LLM) for user querying and will have the following structure.\n[[image:dp-800_case-study-2_ex1.png]]"
         },
         {
           "title": "DAB",
-          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities."
+          "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
       "groupStem": "You implement ProcedureDocuments to support the planned changes.\nWhen users consume data through the Retrieval Augmented Generation (RAG) pattern, they experience data\nretrieval delays.\nYou need to improve the data retrieval performance and reduce the number of tokens per retrieval.\nWhat should you implement?\nA. chunking\nB. embeddings\nC. a small language model (SLM)\nD. JSON content\n\nYou are evaluating the following Data API builder (DAB) configuration.\n```json\n\"entities\": {\n  \"Procedures\": {\n    \"source\": \"dbo.Procedures\",\n    \"rest\": true,\n    \"graphql\": true,\n    \"permissions\": [\n      { \"role\": \"anonymous\", \"actions\": [ \"read\" ] }\n    ]\n  },\n  \"Transactions\": {\n    \"source\": \"dbo.Transactions\",\n    \"rest\": true,\n    \"graphql\": true,\n    \"permissions\": [\n      { \"role\": \"authenticated\", \"actions\": [ \"read\", \"create\" ] }\n    ]\n  },\n  \"UpdateProcedurePatient\": {\n    \"source\": \"dbo.sp_UpdateProcedurePatient\",\n    \"rest\": { \"enabled\": true, \"method\": \"post\", \"path\": \"/procedurepatient\" },\n    \"graphql\": false,\n    \"permissions\": [\n      { \"role\": \"authenticated\", \"actions\": [ \"execute\" ] }\n    ]\n  }\n}\n```"

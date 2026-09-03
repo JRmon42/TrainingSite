@@ -204,6 +204,13 @@ button.danger:hover { border-color: var(--red); }
 .stem-table th, .stem-table td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
 .stem-table th { background: var(--panel2); }
 .exhibit { max-width: 100%; border: 1px solid var(--border); border-radius: 8px; margin: 10px 0; display: block; }
+.exhibit { background: #fff; }
+.cs-panel .exhibit { max-width: 720px; }
+.src-pages { margin: 12px 0; border: 1px solid var(--border); border-radius: 8px; background: var(--panel2); }
+.src-pages > summary { cursor: pointer; padding: 8px 12px; color: var(--muted); font-size: 13px; }
+.src-pages > summary:hover { color: var(--text); }
+.src-pages[open] > summary { border-bottom: 1px solid var(--border); }
+.src-pages .exhibit { margin: 10px 12px; }
 
 /* options */
 .choices { display: flex; flex-direction: column; gap: 10px; margin: 8px 0; }

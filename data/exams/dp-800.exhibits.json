@@ -1,0 +1,17 @@
+{
+  "The FeedbackJson column has a full-text index and stores JSON documents in the following format.": [
+    "dp-800_case-study-1_ex2.png"
+  ],
+  "The database contains the following tables.": [
+    "dp-800_case-study-1_ex1.png"
+  ],
+  "The engineers at Contoso report that the following dashboard query runs slowly.": [
+    "dp-800_case-study-1_ex3.png"
+  ],
+  "The table will be used with a large language model (LLM) for user querying and will have the following structure.": [
+    "dp-800_case-study-2_ex1.png"
+  ],
+  "You create a DAB configuration file that meets the development requirements for DB1 and includes the following entities.": [
+    "dp-800_case-study-2_ex2.png"
+  ]
+}
