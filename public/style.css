@@ -253,6 +253,18 @@ button.danger:hover { border-color: var(--red); }
 .dnd-clear:hover { color: var(--red); border-color: var(--red); }
 .dnd.locked .dnd-clear { display: none; }
 .dnd-fb { font-size: .82rem; flex-basis: 100%; }
+
+/* Boxes rendered in place inside the code being completed. */
+.dnd-code { position: relative; overflow-x: auto; }
+.dnd-code code { white-space: pre; }
+.dnd-target-row.dnd-inline { display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; flex-wrap: nowrap; }
+.dnd-inline .dnd-slot { flex: 0 0 auto; min-width: 150px; min-height: 26px; padding: 2px 8px; border-radius: 6px; background: var(--panel2); }
+.dnd-inline .dnd-slot .dnd-ph { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: var(--border); color: var(--text); font-size: .72rem; }
+.dnd-inline .dnd-slot .dnd-val { font-size: .82rem; white-space: pre; }
+.dnd-inline .dnd-clear { padding: 0 5px; font-size: .7rem; line-height: 1.4; }
+.dnd-inline .dnd-slot:not(.filled) + .dnd-clear { display: none; }
+.dnd-inline .dnd-fb { flex-basis: auto; margin-left: 6px; color: var(--green); white-space: pre; }
+
 @media (max-width: 640px) { .dnd { grid-template-columns: 1fr; } }
 
 .yn-row { display: flex; align-items: center; gap: 14px; margin: 10px 0; padding: 10px 12px; background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; flex-wrap: wrap; }

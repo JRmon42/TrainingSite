@@ -21,7 +21,7 @@
       ],
       "blanks": [
         {
-          "statement": "SELECT list after f.VehicleId",
+          "statement": "SELECT list, after f.VehicleId",
           "options": [
             "CONTAINS(FeedbackJson, @Keyword)",
             "EDIT_DISTANCE(JSON_VALUE(f.FeedbackJson, '$.details.comment'), @Keyword) < 3",
@@ -57,6 +57,8 @@
           "correctIndex": 5
         }
       ],
+      "codeLang": "sql",
+      "codeTemplate": "SELECT\n    f.FeedbackId,\n    f.VehicleId,\n    [[1]],\n    EDIT_DISTANCE_SIMILARITY(\n        JSON_VALUE(f.FeedbackJson, '$.text'),\n        @KnownIssueDescription\n    ) AS SimilarityScore\nFROM\n    dbo.CustomerFeedback f\nWHERE\n    [[2]]\nORDER BY\n    [[3]] DESC;",
       "groupId": "case-study-1",
       "groupKind": "case-study",
       "groupTitle": "Case study: Contoso",
@@ -596,7 +598,7 @@
       ],
       "blanks": [
         {
-          "statement": "First dropdown",
+          "statement": "After FROM dbo.Patients AS p",
           "options": [
             "WHERE EXISTS",
             "WHERE NOT EXISTS",
@@ -606,7 +608,7 @@
           "correctIndex": 0
         },
         {
-          "statement": "Second dropdown",
+          "statement": "After FROM dbo.Procedures AS pr",
           "options": [
             "HAVING p.PatientId = pr.PatientId",
             "HAVING p.TransactionId = pr.TransactionId",
@@ -616,6 +618,8 @@
           "correctIndex": 2
         }
       ],
+      "codeLang": "sql",
+      "codeTemplate": "CREATE PROCEDURE dbo.GetActivePatients\nAS\nBEGIN\n    SET NOCOUNT ON;\n    SELECT p.Name\n    FROM dbo.Patients AS p\n    [[1]] (\n        SELECT PatientId\n        FROM dbo.Procedures AS pr\n        [[2]]\n        AND pr.TransactionDate >= DATEADD(DAY, -30, SYSUTCDATETIME())\n    );\nEND;",
       "groupId": "case-study-2",
       "groupKind": "case-study",
       "groupTitle": "Case study: Fabrikam",
@@ -1221,6 +1225,8 @@
           "correctIndex": 1
         }
       ],
+      "codeLang": "sql",
+      "codeTemplate": "CREATE TRIGGER dbo.trgMaintenanceEvents_UpdateTimestamp\nON dbo.MaintenanceEvents\nAFTER UPDATE\nAS\nBEGIN\n    UPDATE m\n    SET LastModifiedUtc = SYSUTCDATETIME()\n    FROM dbo.MaintenanceEvents m\n    INNER JOIN inserted i\n    ON [[1]]\n    WHERE [[2]]\nEND;\nGO",
       "groupId": "case-study-1",
       "groupKind": "case-study",
       "groupTitle": "Case study: Contoso",
@@ -2190,7 +2196,7 @@
       ],
       "blanks": [
         {
-          "statement": "CREATE dbo.CustomerTransactionsBetweenDates",
+          "statement": "CREATE ... dbo.CustomerTransactionsBetweenDates",
           "options": [
             "FUNCTION",
             "PROCEDURE",
@@ -2209,7 +2215,7 @@
           "correctIndex": 2
         },
         {
-          "statement": "SUM(t.Amount) OVER (...)",
+          "statement": "After the PARTITION BY clause",
           "options": [
             "HAVING DATEDIFF(DAY, t.TransactionDate, GETDATE()) = 1",
             "HAVING SUM (t.Amount) > 0",
@@ -2219,6 +2225,8 @@
           "correctIndex": 2
         }
       ],
+      "codeLang": "sql",
+      "codeTemplate": "CREATE [[1]] dbo.CustomerTransactionsBetweenDates\n(\n    @CustomerId INT,\n    @StartDate DATETIME2,\n    @EndDate   DATETIME2\n)\nRETURNS TABLE\nAS\nRETURN\n(\n    SELECT\n        t.TransactionId,\n        t.CustomerId,\n        t.TransactionDate,\n        t.Amount,\n        SUM(t.Amount) OVER (\n            [[2]]\n            [[3]]\n            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW\n        ) AS RunningTotal\n    FROM dbo.Transactions AS t\n    WHERE t.CustomerId = @CustomerId\n      AND t.TransactionDate >= @StartDate\n      AND t.TransactionDate <= @EndDate\n);",
       "groupId": "case-study-2",
       "groupKind": "case-study",
       "groupTitle": "Case study: Fabrikam",
@@ -2349,7 +2357,7 @@
       ],
       "blanks": [
         {
-          "statement": "on",
+          "statement": "on:",
           "options": [
             "merge",
             "pull_request",
@@ -2368,6 +2376,8 @@
           "correctIndex": 0
         }
       ],
+      "codeLang": "yaml",
+      "codeTemplate": "name: Validate SQL Project\non:\n  [[1]]:\n    branches: [ \"main\" ]\njobs:\n  validate:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Step 1\n        run: dotnet [[2]]",
       "groupId": "case-study-2",
       "groupKind": "case-study",
       "groupTitle": "Case study: Fabrikam",
@@ -5086,7 +5096,7 @@
       ],
       "blanks": [
         {
-          "statement": "on",
+          "statement": "on:",
           "options": [
             "merge",
             "pull_request",
@@ -5105,6 +5115,8 @@
           "correctIndex": 0
         }
       ],
+      "codeLang": "yaml",
+      "codeTemplate": "name: Validate SQL Project\non:\n  [[1]]:\n    branches: [ \"main\" ]\njobs:\n  validate:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Step 1\n        run: dotnet [[2]]",
       "groupId": "case-study-2",
       "groupKind": "case-study",
       "groupTitle": "Case study: Fabrikam",
@@ -5163,7 +5175,7 @@
       ],
       "blanks": [
         {
-          "statement": "FROM dbo.Patients AS p:",
+          "statement": "After FROM dbo.Patients AS p",
           "options": [
             "WHERE EXISTS",
             "WHERE NOT EXISTS",
@@ -5173,7 +5185,7 @@
           "correctIndex": 0
         },
         {
-          "statement": "FROM dbo.Procedures AS pr:",
+          "statement": "After FROM dbo.Procedures AS pr",
           "options": [
             "HAVING p.PatientId = pr.PatientId",
             "HAVING p.TransactionId = pr.TransactionId",
@@ -5183,6 +5195,8 @@
           "correctIndex": 2
         }
       ],
+      "codeLang": "sql",
+      "codeTemplate": "CREATE PROCEDURE dbo.GetActivePatients\nAS\nBEGIN\n    SET NOCOUNT ON;\n    SELECT p.Name\n    FROM dbo.Patients AS p\n    [[1]] (\n        SELECT PatientId\n        FROM dbo.Procedures AS pr\n        [[2]]\n        AND pr.TransactionDate >= DATEADD(DAY, -30, SYSUTCDATETIME())\n    );\nEND;",
       "groupId": "case-study-2",
       "groupKind": "case-study",
       "groupTitle": "Case study: Fabrikam",
@@ -5437,44 +5451,35 @@
       "id": 139,
       "pdfFile": "dp-800.pdf",
       "pdfPage": 226,
-      "explanation": "A table-valued FUNCTION is appropriate because it accepts parameters and returns a table expression that developers can join to other tables. A view cannot accept @CustomerId, @StartDate, and @EndDate parameters, and a stored procedure cannot be directly joined in a query. The running total uses SUM(...) OVER, so PARTITION BY t.CustomerId separates the total by customer. ORDER BY t.TransactionDate, t.TransactionId defines chronological order and provides a deterministic tie-breaker for transactions on the same date.",
-      "type": "dropdown",
-      "stem": "Case Study - Fabrikam\nExisting Environment\nAzure Environment\nFabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n-Patients\n-Employees\n-Procedures\n-Transactions\n-UsefulPrompts\n-ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1.\nProblem Statements\nUsers report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent.\nRequirements\nPlanned Changes\nFabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged.\nDeployments must use the Release configuration.\nSecurity Requirements\nbrikam identifies the following security requirements:\n* The TransactionProcessing application must use a passwordless connection to DB1\n* The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n* Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the\nemployee data.\nDatabase Performance Requirements\nRecords accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs.\nAl Search, Embeddings, and Vector Indexing\nFabrikam identifies the following Al-related requirements:\n*Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n*Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n*The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAl endpoint.\nDevelopment Requirements\nFabrikam identifies the following development requirements:\n-Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n-Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\n-Read data from the procedures table without authentication.\n-Read and insert data into the Transactions table once authenticated.\n-Execute the sp_UpdateProcedurePatient stored procedure.\nProvide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\nInformation for each medical procedure will be stored in a table.\nThe table will be used with a large language model (LLM) for user querying and will have the following structure.\nDAB\nYou create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\nQuestion\nYou need to use the UsefulPrompts table as defined in the AI requirements.\nWhich stored procedure should you use?\nA. sp_OACreate\nB. sp_addendpoint\nC. xp_cmdshell\nD. sp_invoke_external_rest_endpoint",
+      "explanation": "sp_invoke_external_rest_endpoint is the stored procedure that calls external REST endpoints directly from Azure SQL Database, which is the supported way to send the prompts stored in UsefulPrompts to an Azure OpenAI endpoint.\nsp_OACreate is incorrect because it creates OLE Automation objects, which are not supported in Azure SQL Database. sp_addendpoint is incorrect because it is not a valid stored procedure for invoking external REST APIs. xp_cmdshell is incorrect because it runs operating-system commands, is disabled by default for security reasons, and cannot call a REST endpoint.",
+      "type": "single",
+      "stem": "Case Study - Fabrikam\nExisting Environment\nAzure Environment\nFabrikam has a single Azure subscription in the East US 2 Azure region. The subscription contains an Azure SQL\ndatabase named DB1. DB1 contains the following tables:\n-Patients\n-Employees\n-Procedures\n-Transactions\n-UsefulPrompts\n-ProcedureDocuments\nYou store a column master key as a secret in Azure Key Vault.\nYou have an on-premises application named TransactionProcessing that uses a hard-coded username and\npassword in a connection string to access DB1.\nProblem Statements\nUsers report that after executing a long-running stored procedure named sp_UpdateProcedureForPatient,\nupdates to the underlying data are sometimes inconsistent.\nRequirements\nPlanned Changes\nFabrikam plans to manage all changes to Azure SQL Database objects by using source control in GitHub. Every\npull request submitted to production will be validated before it can be merged.\nDeployments must use the Release configuration.\nSecurity Requirements\nbrikam identifies the following security requirements:\n* The TransactionProcessing application must use a passwordless connection to DB1\n* The Employees table contains two columns named TaxID and Salary that must be encrypted at rest.\n* Auditors must have a tamper-evident history of transactions with cryptographic proof of changes to the\nemployee data.\nDatabase Performance Requirements\nRecords accessed by using sp_UpdateProcedureForPatient must NOT be changed by other transactions while the\nstored procedure runs.\nAl Search, Embeddings, and Vector Indexing\nFabrikam identifies the following Al-related requirements:\n*Queries to the ProcedureDocuments table must use Reciprocal Rank Fusion (RRF).\n*Users must be able to query the data in DB1 by using prompts in Copilot in Microsoft Fabric.\n*The UsefulPrompts table will store prompts that doctors can use to help diagnose patient illness by connecting to\nan Azure OpenAl endpoint.\nDevelopment Requirements\nFabrikam identifies the following development requirements:\n-Provide the functionality to retrieve all the transactions of a given patient between two dates, showing a running\ntotal.\n-Expose a Data API builder (DAB) configuration file to enable Azure services to perform the following operations\nover a REST API:\n-Read data from the procedures table without authentication.\n-Read and insert data into the Transactions table once authenticated.\n-Execute the sp_UpdateProcedurePatient stored procedure.\nProvide the functionality to retrieve a list of the names of patients who underwent medical procedures during the\nlast 30 days.\nInformation for each medical procedure will be stored in a table.\nThe table will be used with a large language model (LLM) for user querying and will have the following structure.\nDAB\nYou create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\nQuestion\nYou need to use the UsefulPrompts table as defined in the AI requirements.\nWhich stored procedure should you use?",
       "exhibitImages": [
         "dp-800_q139_225.png",
         "dp-800_q139_226.png",
         "dp-800_q139_227.png",
         "dp-800_q139_228.png"
       ],
-      "blanks": [
+      "choices": [
         {
-          "statement": "CREATE",
-          "options": [
-            "FUNCTION",
-            "PROCEDURE",
-            "VIEW"
-          ],
-          "correctIndex": 0
+          "key": "A",
+          "text": "sp_OACreate",
+          "correct": false
         },
         {
-          "statement": "SUM(t.Amount) OVER (",
-          "options": [
-            "GROUP BY t.CustomerId",
-            "GROUP BY t.TransactionDate",
-            "PARTITION BY t.CustomerId",
-            "PARTITION BY t.TransactionDate"
-          ],
-          "correctIndex": 2
+          "key": "B",
+          "text": "sp_addendpoint",
+          "correct": false
         },
         {
-          "statement": "After PARTITION BY t.CustomerId",
-          "options": [
-            "HAVING DATEDIFF(DAY, t.TransactionDate, GETDATE()) = 1",
-            "HAVING SUM (t.Amount) > 0",
-            "ORDER BY t.TransactionDate, t.TransactionId",
-            "ORDER BY t.TransactionId, t.CustomerId"
-          ],
-          "correctIndex": 2
+          "key": "C",
+          "text": "xp_cmdshell",
+          "correct": false
+        },
+        {
+          "key": "D",
+          "text": "sp_invoke_external_rest_endpoint",
+          "correct": true
         }
       ],
       "groupId": "case-study-2",
@@ -5518,7 +5523,7 @@
           "body": "You create a DAB configuration file that meets the development requirements for DB1 and includes the following\nentities.\n[[image:dp-800_case-study-2_ex2.png]]"
         }
       ],
-      "groupStem": "You need to use the UsefulPrompts table as defined in the AI requirements.\nWhich stored procedure should you use?\nA. sp_OACreate\nB. sp_addendpoint\nC. xp_cmdshell\nD. sp_invoke_external_rest_endpoint"
+      "groupStem": "You need to use the UsefulPrompts table as defined in the AI requirements.\nWhich stored procedure should you use?"
     },
     {
       "id": 140,

@@ -605,6 +605,41 @@ function sourceImagesBlock(q) {
 }
 
 /* ===================== Drag & drop (dropdown-type) ===================== */
+const BLANK_MARKER = /\[\[(\d+)\]\]/g;
+
+function dndTargetHtml(j, label, inline) {
+  const ph = inline ? String(j + 1) : "Drop a value…";
+  return `<${inline ? "span" : "div"} class="dnd-target-row${inline ? " dnd-inline" : ""}" data-blank="${j}">
+       ${inline ? "" : `<span class="dnd-label">${escapeHtml(label)}</span>`}
+       <span class="dnd-slot" data-blank="${j}" data-val="" data-ph="${escapeHtml(ph)}"><span class="dnd-ph">${escapeHtml(ph)}</span></span>
+       <button type="button" class="dnd-clear" data-blank="${j}" title="Clear this box">✕</button>
+       <span class="dnd-fb"></span>
+     </${inline ? "span" : "div"}>`;
+}
+
+// The exam shows the boxes inside the code being completed. When the question
+// carries a codeTemplate, [[n]] marks where box n goes and the drop targets are
+// rendered in place; otherwise they fall back to one labelled row per box.
+function dndAnswerArea(blanks, q) {
+  const template = q.codeTemplate;
+  if (!template) {
+    return blanks.map((b, j) => dndTargetHtml(j, b.statement || ("Box " + (j + 1)), false)).join("");
+  }
+  const used = new Set();
+  const code = escapeHtml(template).replace(BLANK_MARKER, (m, n) => {
+    const j = parseInt(n, 10) - 1;
+    if (!(j >= 0 && j < blanks.length) || used.has(j)) return m;
+    used.add(j);
+    return dndTargetHtml(j, "", true);
+  });
+  // A box the template forgot still needs a target, or it could never be answered.
+  const orphans = blanks
+    .map((b, j) => (used.has(j) ? "" : dndTargetHtml(j, b.statement || ("Box " + (j + 1)), false)))
+    .join("");
+  const lang = q.codeLang ? ` data-lang="${escapeHtml(q.codeLang)}"` : "";
+  return `<pre class="code-block dnd-code"${lang}><code>${code}</code></pre>${orphans}`;
+}
+
 function dndHtml(q) {
   const blanks = q.blanks || [];
   const seen = new Set();
@@ -612,13 +647,6 @@ function dndHtml(q) {
   blanks.forEach(b => (b.options || []).forEach(o => { if (!seen.has(o)) { seen.add(o); bank.push(o); } }));
   const chips = bank.map(o =>
     `<div class="dnd-chip" draggable="true" data-val="${escapeHtml(o)}">${escapeHtml(o)}</div>`).join("");
-  const targets = blanks.map((b, j) =>
-    `<div class="dnd-target-row" data-blank="${j}">
-       <span class="dnd-label">${escapeHtml(b.statement || ("Box " + (j + 1)))}</span>
-       <div class="dnd-slot" data-blank="${j}" data-val=""><span class="dnd-ph">Drop a value…</span></div>
-       <button type="button" class="dnd-clear" data-blank="${j}" title="Clear this box">✕</button>
-       <span class="dnd-fb"></span>
-     </div>`).join("");
   return `<div class="dnd">
     <div class="dnd-bank">
       <div class="dnd-col-title">Values</div>
@@ -627,7 +655,7 @@ function dndHtml(q) {
     </div>
     <div class="dnd-answer">
       <div class="dnd-col-title">Answer area</div>
-      ${targets}
+      ${dndAnswerArea(blanks, q)}
     </div>
   </div>`;
 }
@@ -639,7 +667,9 @@ function wireDnd(root, q, idx) {
   let selectedChip = null;
   const setSlot = (slot, val) => {
     slot.dataset.val = val || "";
-    slot.innerHTML = val ? `<span class="dnd-val">${escapeHtml(val)}</span>` : `<span class="dnd-ph">Drop a value…</span>`;
+    slot.innerHTML = val
+      ? `<span class="dnd-val">${escapeHtml(val)}</span>`
+      : `<span class="dnd-ph">${escapeHtml(slot.dataset.ph || "Drop a value…")}</span>`;
     slot.classList.toggle("filled", !!val);
   };
   dnd.querySelectorAll(".dnd-chip").forEach(chip => {
